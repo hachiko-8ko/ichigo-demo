@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Simple Counter With One-Way Binding</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../lib/bootstrap/css/mdb.min.css" />
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Simple Counter Demo</h1>
+        <p class="lead">
+            This demonstrates a simple text field bound to an observable that is being changed once a second.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="h3 text-center" id="counter">
+                                    0
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+                                <p>
+                                    This is about the simplest demonstration possible without being Hello World. It creates an observable containing an integer. Then it binds a element to the observable, using it as a simple view model. The observable is incremented once a second for no reason other than to make something happen on the page.
+                                </p>
+                                <p class="note note-info">
+                                    This demo uses prototype extension methods to keep it as dead simple as possible. You need to load either the ichigo-full script or run the extensions module to create the "toObservable()" and "bindComponent()" methods.
+                                </p>
+                                <p>
+                                    Let's look at it statement by statement. There are only 3. The first statement builds the observable.
+                                </p>
+
+                                <p>
+                                    <code>
+                                        const observable = (0).toObservable();
+                                    </code>
+                                </p>
+
+                                <p>
+                                    This creates an ObservableProperty whose value begins as the number 0. The extension method being used here is the same as if you ran
+                                    <code>
+                                        const observable = new mi5.observable.ObservableProperty(0)
+                                    </code>.
+                                </p>
+
+                                <p class="note note-info">
+                                    The number is surrounded by parentheses because numbers have periods too. Parentheses tell JS that you
+                                    are running a method on the Number object, not building a malformed decimal.
+                                </p>
+
+                                <p>
+                                    On to statement 2 of 3.
+                                </p>
+
+                                <p>
+                                    <code>
+                                        document.getElementById('counter')<br/>
+                                        .bindComponent(observable)<br/>
+                                        .setTextTemplate()<br/>
+                                        .observe();
+                                    </code>
+                                </p>
+
+                                <p>
+                                    This binds the "counter" element to the observable you just created, using it as the view model. Again, this is using an extension method, and is the same as running 
+                                    <code>
+                                        new mi5.component.BoundComponent(observable, { element: document.getElementById('counter') })
+                                    </code>.
+                                </p>
+
+                                <p>
+                                    The call to setTextTemplate() with no arguments sets the text of the element, using the default value of '.' (which indicates the view model itself). The call to observe() subscribes the component's render() event to the observable's event handler.
+                                </p>
+
+                                <p class="note note-info">
+                                    The object is not rendered initially (update is not true when calling setTextTemplate()), meaning that for the first second, the value you see comes from the HTML, not the observable. Don't worry ... in one second, it will be re-rendered.
+                                </p>
+
+                                <p>
+                                    In statement 3, the observable is updated once a second using <code>setInterval(() => observable.value++, 1000)</code>.  This is standard JS. The only thing to point out here is that to read or write the value of an ObservableProperty, you must access the "value" property.
+                                </p>
+
+                                <a href="js/simple-counter.js">Link to the script</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script src="../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="js/simple-counter.js"></script>
+
+</html>

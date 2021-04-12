@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Hello World</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../lib/bootstrap/css/mdb.min.css" />
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Hello World Demo</h1>
+        <p class="lead">
+            By law, every programming demo is required to start with "hello world."
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="hello">Hello
+                                    <i-v>name</i-v>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+                                <p>
+                                    Here's the requisite hello world demo. This demo is made up of two parts, one line of HTML and one line of JS. First, the
+                                    HTML line:
+                                </p>
+
+                                <p>
+                                    <code>
+                                        &lt;div id="hello"&gt;Hello &lt;i-v&gt;name&lt;/i-v&gt;&lt;/div&gt;
+                                    </code>
+                                </p>
+
+                                <p>
+                                    This creates a div whose content is "Hello" followed by a replacement value, indicated by
+                                    <code>i-v</code> tags containing a property name from the view model bound to the component. The view
+                                    model in this case is an object containing a property named
+                                    <code>name</code>.
+                                </p>
+
+                                <p>
+                                    The basic pattern for
+                                    <code>i-v</code> tags is
+                                    <code>&lt;i-v&gt;SOME-PROPERTY-NAME&lt;/i-v&gt;</code>. This is the same as some languages' { SOME-PROPERTY-NAME }, {{ SOME-PROPERTY-NAME }},
+                                    or @Model.SomePropertyName replacements.
+                                </p>
+
+                                <p class="note note-info">
+                                    By default, the replaced value is HTML-escaped; to render an unescaped value, use
+                                    <code>&lt;i-v noescape&gt;SOME-PROPERTY-NAME&lt;/i-v&gt;</code>.
+                                </p>
+
+                                <p>
+                                    Now let's look at the line of script:
+                                </p>
+
+                                <p>
+                                    <code>
+                                        new mi5.component.BoundComponent({ name: 'World' }, { element: document.getElementById('hello') });
+                                    </code>
+                                </p>
+
+                                <p>
+                                    This script creates a new BoundComponent and binds the data to the view model
+                                    <code>{ name: 'World' }</code> and binds the rendered output to the element whose id is "hello." By default, once this
+                                    has been bound, the component is then rendered, replacing the
+                                    <code>i-v</code> replacement tag with the requested value of "name," which is "World."
+                                </p>
+
+                                <p class="note note-info">
+                                    You might notice a brief flash of the word "name" before the script has run. This is visible because the text is on the actual
+                                    HTML page without any scripts. The simplest way to avoid this is to pass the HTML into
+                                    the component, so it is rendered before being written. Another solution would be to include
+                                    the following in the div HTML:
+                                    <code>style="display: none;" :if="name"</code>, which starts being hidden and then is made visible if the name is populated.
+                                </p>
+
+                                <p>
+                                    And so there we have it, a demo where the description of the code is WAYYYY longer than the code.
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script src="../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../lib/ichigo/js/ichigo-full.min.js"></script>
+<script>
+    'use strict';
+    new mi5.component.BoundComponent({ name: 'World' }, { element: document.getElementById('hello') });
+</script>
+
+</html>

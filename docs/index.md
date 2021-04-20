@@ -29,13 +29,13 @@ remotely exciting.
 Complete demos of all the capabilities of certain objects.
 
 * [Component](api/component-base): Component base properties
-<!---
+<!--
 * [Component & Bound Component](api/component-ctor): Component constructors
 * [Bound Component](api/component-inject): Component injection
 * [Bound Component](api/component-template): Component templates
 * [Bound Component](api/component-properties): Custom properties
 * [Bound Component](api/component-source): Component value sources
 * [Bound Component](api/component-method): Component methods
---->
+-->
 
 <sub><sup>Ichigo logo hacked up using two SVGs licensed by Wikimedia under CC BY-SA 4.0</sup></sub>

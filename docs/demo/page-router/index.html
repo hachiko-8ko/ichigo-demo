@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Page Router Demo</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Page Router Demo</h1>
+        <p class="lead">
+            A simple simulation of routing to different URLs while staying on the same page, providing view objects instead of actual
+            pages.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body">
+                                <page-router></page-router>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p>
+                                    This is a demo of the page router for single-page applications. It is a tiny SPA, made up of four pages.
+                                </p>
+
+                                <p>
+                                    When the browser routes to a page, the PageRouter class determines, based on the route configuration, what component or element to return, and then places it into the &lt;page-router&gt; element in the HTML. By default, the PageRouter class determines
+                                    what to return by using the URL hash, the text following the pound sign (#) in the URL,
+                                    which can be changed without forcing a page reload. This is not required, however, as
+                                    you can choose to route only using the PageRouter.route() method.
+                                </p>
+
+                                <p>
+                                    <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/Router/PageRouter.d.ts">PageRouter type definition</a><br/>
+                                    <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/Router/IRoute.d.ts">IRoute type definition</a>
+                                </p>
+
+                                <p>
+                                    All methods of the PageRouter class are static methods that can be accessed from anywhere. The first method you must call is always PageRouter.configure(), which does initial set-up of the router, the kind of thing that in .Net would be handled by a static constructor. In the demo script, this call appears at the end.
+                                </p>
+
+                                <p>
+                                    <code>
+                                        mi5.router.PageRouter.configure([ <br/>
+                                        &nbsp;&nbsp;&nbsp; { route: 'login', payload: LoginView }, <br/>
+                                        &nbsp;&nbsp;&nbsp; { route: 'home', payload: ChoiceView, routeGuards: loginGuard }, <br/>
+                                        &nbsp;&nbsp;&nbsp; { route: 'door/3', payload: doorThree, routeGuards: loginGuard }, <br/>
+                                        &nbsp;&nbsp;&nbsp; { route: 'door/:id', payload: door, routeGuards: loginGuard }, <br/>
+                                        ], kw('defaultRoute', 'login'));
+                                    </code>
+                                </p>
+
+                                <p>
+                                    The configure method can take a list of routes (you can also call addRoute() one by one). This page has four routes. It also sets the defaultRoute to login, which means that if you load the page with no hash, it will route to the default page.
+                                </p>
+
+                                <p class="note note-info">
+                                    The syntax <code>kw('defaultRoute', 'login')</code> is using the keyword argument helper, which is described in the keyword argument demo. If you've ever used C#, this would be the same as if you included <code>defaultRoute: "login"</code> in your method call. In Python, <code>defaultRoute = "login"</code>. In JS, you could get the same result by calling <code>PageRouter.configure([], undefined, undefined, undefined, 'login')</code> ... which is pretty wordy and opaque.
+                                </p>
+
+                                <p>
+                                    Each route to be added to the PageRouter must have a route, which is a string to be matched, and a payload. The payload can
+                                    be a component class or a parameterless function that returns a constructed component
+                                    or a HTML element. It can also be an existing component; in this case, the component
+                                    is cloned, so bugs aren't created when an existing component is suddenly moved to a new
+                                    location.
+                                </p>
+
+                                <p class="note note-warning">
+                                    When you return a component or element from a function, there isn't really a way to enforce that the element returned is
+                                    new. If you return an existing element, you will see either errors or bugs, so don't
+                                    do it.
+                                </p>
+
+                                <p>
+                                    This demo page has four sub-pages, four routes. The first of four routes is the login page, provided by the LoginView class, which inherits from the Component class. I will
+                                    skip most of the details of the login component; if you're interested in more details
+                                    about components, check out to the component API pages or one of the component demos.
+                                    There only point that is relevant to routing is in the login() method. When the user
+                                    logs in with user name and password, if they are correct, it routes the user to the 'home'
+                                    route.
+                                </p>
+
+                                <p class="note note-info">
+                                    The username can be anything. The password is "password" because security is important to us. Just as important as it is to all corporations that have your personal data.
+                                </p>
+
+                                <p>
+                                    <code>
+                                    if (data.userName && data.password === 'password') { <br/>
+                                        &nbsp;&nbsp;&nbsp; sessionStorage.setItem('userName', data.userName); <br/>
+                                        &nbsp;&nbsp;&nbsp; mi5.router.PageRouter.route('home'); <br/>
+                                    }
+                                    </code>
+                                </p>
+
+                                <p>
+                                    In place of an auth cookie, this uses sessionStorage, which is dead simple and very easy to clear. If the user is logged
+                                    in, 'userName' is populated. After setting the login state, the view calls the <code>PageRouter.route()</code> method to route
+                                    to <code>home</code>. Alternately, it could have changed window.location.hash.
+                                </p>
+
+                                <p class="note note-warning">
+                                    This example uses sessionStorage to store the logged-in state, because it's mega simple and vanishes as soon as you close
+                                    the tab or the browser. Unfortunately this breaks this demo in Firefox, because Firefox
+                                    responds with "SecurityError: The operation is insecure." So view the demo in Chrome.
+                                </p>
+
+                                <p>
+                                    The second route, the home page, returns ChoiceView, which does nothing more than show the logged-in user's name and request that the user choose between two doors.
+                                </p>
+
+                                <p class="note note-info">
+                                    Notice that the payload in these cases is returning the component <em>class</em>, not an instance of the component. Also notice the the constructors take zero arguments.
+                                </p>
+
+                                <p>
+                                    The third route, <code>door/3</code>, is a special case that appears if the user goes into the URL bar and changes the path to door/3. This is a simple static div, constructed using Ichigo's div helper (see the relevant demo). It must appear before the next route because this is a more specific version of the same thing. The rule when there are multiple routes that match the current URL is first come, first served.
+                                </p>
+
+                                <p>
+                                    The final route, <code>door/:id</code>, contains a variable parameter, <code>id</code>, which can match any string. The payload in this case is a function, <code>door()</code>, which gets the value of the id parameter, using <code>PageRouter.params.get('id')</code>, and returns a div whose content is determined by the user's choice.
+                                </p>
+
+                                <p>
+                                    <code>
+                                            function door() { <br/>
+                                                &nbsp;&nbsp;&nbsp; switch (mi5.router.PageRouter.params.get('id')) { <br/>
+                                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; case '1': <br/>
+                                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return mi5.html.div('Lady', { classList: 'text-center alert alert-success' }); <br/>
+                                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; case '2': <br/>
+                                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return mi5.html.div('Tiger', { classList: 'text-center alert alert-warning' }); <br/>
+                                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; default: <br/>
+                                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return mi5.html.div('INVALID DOOR', { classList: 'text-center alert alert-dark' }) <br/>
+                                                    } 
+                                            }
+                                    </code>
+                                </p>
+
+                                <p>
+                                    The final piece of code is the login guard, which checks to see if the user is logged in, and if the user is not logged it, redirects the user and returns false. This is set on every route but login, which prevents users that aren't logged in from seeing anything but the login page.
+                                </p>
+
+                                <p>
+                                    <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/Router/IRouteGuard.d.ts">IRouteGuard type definition</a>
+                                </p>
+
+                                <p>
+                                    Route guards must be objects that implement IRouteGuard. The only requirement to be a route guard is to have a function named checkValid that takes the route as an input and returns either true (allowed to route to the page) or false (not allowed to route to the page). They can do whatever else they need to, and being objects, can be constructed with whatever properties they need to work, such as a list of user roles that may see a page.
+                                </p>
+
+                                <p>
+                                    <code>
+                                            const loginGuard = { <br/>
+                                                &nbsp;&nbsp;&nbsp; checkValid: function(route) { <br/>
+                                                    &nbsp;&nbsp;&nbsp; const loggedIn = sessionStorage.getItem('userName'); <br/>
+                                                    &nbsp;&nbsp;&nbsp; if (loggedIn) { <br/>
+                                                        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return true; <br/>
+                                                        &nbsp;&nbsp;&nbsp; } <br/>
+                                                        &nbsp;&nbsp;&nbsp; mi5.router.PageRouter.route('login'); <br/>
+                                                        &nbsp;&nbsp;&nbsp; return false; <br/>
+                                                }
+                                            }; <br/>
+                                    </code>
+                                </p>
+
+                                <a href="js/page-router.js">Link to the script</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo">
+                <img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home">
+            </a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="js/page-router.js"></script>
+
+</html>

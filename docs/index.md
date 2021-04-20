@@ -11,7 +11,7 @@ think it's neat that it's now possible to build a modern dynamic web application
 help of a tiny library. That tiny library only wraps standard ES 2015 functions in a friendly API, but a nice
 API goes a long way toward making programming simple.
 
-* Ichigo: https://github.com/hachiko-8ko/ichigo
+* Ichigo: [Repository](https://github.com/hachiko-8ko/ichigo)
 
 ## Demos
 
@@ -19,8 +19,23 @@ I'll add demo pages as I think of some and feel like making them. There'll only 
 It takes a while think of good examples, and this is only something I do to kill time and making demos is not even
 remotely exciting.
 
-* [Unit Test Bench](test-bench): Basic unit tests
-* [Hello World](hello-world): Every programming demo has to start with Hello World, by law
-* [Simple Counter](simple-counter): A simple counter using one-way binding and prototype extensions
+* [Unit Test Bench](demo/test-bench): Basic unit tests
+* [Hello World](demo/hello-world): Every programming demo has to start with Hello World, by law
+* [Simple Counter](demo/simple-counter): A simple counter using one-way binding and prototype extensions
+* [Page Router](demo/page-router): A basic single page app page router demo
+
+## API Deep Dives
+
+Complete demos of all the capabilities of certain objects.
+
+* [Component](api/component-base): Component base properties
+<!---
+* [Component & Bound Component](api/component-ctor): Component constructors
+* [Bound Component](api/component-inject): Component injection
+* [Bound Component](api/component-template): Component templates
+* [Bound Component](api/component-properties): Custom properties
+* [Bound Component](api/component-source): Component value sources
+* [Bound Component](api/component-method): Component methods
+--->
 
 <sub><sup>Ichigo logo hacked up using two SVGs licensed by Wikimedia under CC BY-SA 4.0</sup></sub>

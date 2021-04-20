@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Component Base Properties</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+</head>
+<body>
+
+    <div class="container-fluid">
+        <h1>Component Base Properties and Methods</h1>
+        <p class="lead">
+            The component class is an abstract class intended to be the base class for views. It is
+            also the base class for the BoundComponent class.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body" id="demoArea">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p>The Component class is intended to be used as the base class for views you might create. It
+                                is also used as the base class for the BoundComponent class, which is nothing more than a
+                                small (one-element), one- or two-way bound view. The bulk of the class is in the constructor,
+                                which is described in a different api document. The rest is described here.</p>
+
+                                <p>All components must implement IContent, which means they have a content property, representing the HTML content of the component.</p>
+
+                                <p>If you are building a view, it is recommended that you implement IView, which means only that there is also a viewModel property.</p>
+
+                                <a href="js/component-base.js">Link to the demo script</a>
+
+                                <p class="h3 pt-3">API</p>
+
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Detail</th>
+                                    </thead>
+                                    <tr>
+                                        <th scope="row"><code>inject(selector = '[ichigo]', options?, constructor?)</code></th>
+                                        <td>static method</td>
+                                        <td>
+                                            <p>
+                                                The inject method can be used to construct a single component (where it is not very useful) or
+                                                multiple components from currently existing HTML elements.
+                                                <ul>
+                                                    <li>
+                                                        selector: This selects the HTML elements to be modified. This can be a CSS selector to be passed into 
+                                                        document.querySelectorAll(), a single element, a nodelist (the result of document.querySelectorAll()), 
+                                                        an array, or an object containing {parent, selector}, which translates to <code>parent.querySelectorAll(selector)</code>.
+                                                    </li>
+                                                    <li>
+                                                        options: options to be passed into the component constructor. When injecting, you can set <code>replace</code> to true and include HTML for the new component, which deletes the existing element and uses the supplied HTML instead. If you send a string, this is the same as if you sent outerHtml and replace: true.
+                                                    </li>
+                                                    <li>
+                                                        constructor: constructor of the component class, if the constructed component is to be a
+                                                        different type of component. If not provided, the current component class is used.
+                                                    </li>
+                                                </ul>
+
+                                                The return value is always an array of components, because inject() allows multiple replacements at a time (it's the very reason it was created).
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>content</code></th>
+                                        <td>public field</td>
+                                        <td>
+                                            <p>
+                                                Every component has a content property, which references the physical footprint, in the HTML page, of
+                                                the component. The <code>content</code> is where the content is displayed.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>id {get; set;}</code></th>
+                                        <td>public property</td>
+                                        <td>
+                                            <p>
+                                                This mirrors the id of the content element.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>innerHTML {get; set;}</code></th>
+                                        <td>public property</td>
+                                        <td>
+                                            <p>
+                                                This mirrors the innerHTML of the content element.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>value {get; set;}</code></th>
+                                        <td>public property</td>
+                                        <td>
+                                            <p>
+                                                If the content element is a form field, this gets and sets the field value, using whatever means is used by
+                                                the element type (it varies).
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>className {get; set;}</code></th>
+                                        <td>public property</td>
+                                        <td>
+                                            <p>
+                                                This mirrors the className of the content element.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>classList {get;}</code></th>
+                                        <td>public property</td>
+                                        <td>
+                                            <p>
+                                                This mirrors the classList of the content element.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>style {get;}</code></th>
+                                        <td>public property</td>
+                                        <td>
+                                            <p>
+                                                This mirrors the style of the content element.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>addEventListener(eventType, event, options?): this</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                This mirrors the addEventListener() method of the content element.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>addInlineEventListeners(componentFilter): this</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                If called, this searches the content element for all elements having properties named i5_event, :event, or data-i5_event.
+                                                On these elements, it takes the attribute in parentheses (or underscores) as the event type and the value of that attribute as the method
+                                                to use. Then it calls addEventListener() using those details. For example, <code>&lt;button :event (click)="buttonWasClicked"&gt;</code> 
+                                                calls button.addEventListener(click, this.buttonWasClicked.bind(this)).
+                                                <ul>
+                                                    <li>
+                                                        componentFilter: If populated, only elements where the component attribute matches the value are selected. For example, only one of the following is matched: <code>
+                                                        &lt;button :event (click)="buttonWasClicked" component="thisComponent"&gt; &lt;button :event (click)="buttonWasClicked" component="someUnrelatedComponent"&gt;</code>
+                                                    </li>
+                                                </ul>
+                                            </p>
+                                            <p class="note note-info">Even though parentheses are legal fields for attributes, the setAttribute()/getAttribute() functions will choke on them. You may prefer <code>&lt;button :event _click_="buttonWasClicked"&gt;</code>, though it is not idiomatic.</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>append(child): this</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                This mirrors the appendChild() method of the content element, except that child can also be a component. Fluent.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>appendChild(child)</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                This mirrors the appendChild() method of the content element, except that child can also be a component. NOT fluent.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>appendToParent(parent): this</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                This calls appendChild() on the parent, using the component content as the argument. The parent can also be a component.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>mapComponent(): this</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                This adds the component to ComponentMap.components, a WeakMap that can get an added component class by looking up its content element.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>unmapComponent(): this</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                This removes the component from ComponentMap.components.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>getAllChildComponents()</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                This returns all components found within the content element, if they have been mapped.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>setStyle(style): this</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                Sets style of the content element, except that this can also take an object of the format { "text-decoration": "wavy" }.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row"><code>addClass(class): this</code></th>
+                                        <td>public method</td>
+                                        <td>
+                                            <p>
+                                                Adds to the classList of the content element. Takes either an array of class names or a space-delimited list.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                                <p class="h3">Type definitions</p>
+                                <ul>
+                                    <li><a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Component.d.ts">Component</a></li>
+                                    <li><a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Options/IInnerHtmlOptions.d.ts">IInnerHtmlOptions</a></li>
+                                    <li><a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Options/IOuterHtmlOptions.d.ts">IOuterHtmlOptions</a></li>
+                                    <li><a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/ComponentMap.d.ts">ComponentMap</a></li>
+                                    <li><a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Contract/IContent.d.ts">IContent</a></li>
+                                    <li><a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Contract/IView.d.ts">IView</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo"><img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home"></a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+
+<script src="js/component-base.js"></script>
+
+</html>

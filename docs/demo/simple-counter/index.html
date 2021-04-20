@@ -5,7 +5,7 @@
 <head>
     <title>Simple Counter With One-Way Binding</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../lib/bootstrap/css/mdb.min.css" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
 </head>
 
 <body>
@@ -105,7 +105,9 @@
                                     In statement 3, the observable is updated once a second using <code>setInterval(() => observable.value++, 1000)</code>.  This is standard JS. The only thing to point out here is that to read or write the value of an ObservableProperty, you must access the "value" property.
                                 </p>
 
-                                <a href="js/simple-counter.js">Link to the script</a>
+                                <a href="js/simple-counter.js">Link to the script</a><br/>
+                                <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/Extensions/ComponentExtensions.d.ts">Component Extension Definition</a>
+                                <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/Extensions/ObservableExtensions.d.ts">Observable Extension Definition</a>
                             </div>
                         </div>
                     </div>
@@ -113,11 +115,15 @@
             </div>
         </div>
     </div>
-
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo"><img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home"></a>
+        </div>
+    </footer>
 </body>
 
-<script src="../lib/bootstrap/js/mdb.min.js"></script>
-<script src="../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
 <script src="js/simple-counter.js"></script>
 
 </html>

@@ -29,13 +29,15 @@ remotely exciting.
 Complete demos of all the capabilities of certain objects.
 
 * [Component](api/component-base): Component base properties
-<!--
+
+The following are not done yet. If Jekyll (what Github uses to build this page) worked correctly,
+they could be commented out. But we have to work with the software we have, not the software we want.
+
 * [Component & Bound Component](api/component-ctor): Component constructors
 * [Bound Component](api/component-inject): Component injection
 * [Bound Component](api/component-template): Component templates
 * [Bound Component](api/component-properties): Custom properties
 * [Bound Component](api/component-source): Component value sources
 * [Bound Component](api/component-method): Component methods
--->
 
 <sub><sup>Ichigo logo hacked up using two SVGs licensed by Wikimedia under CC BY-SA 4.0</sup></sub>

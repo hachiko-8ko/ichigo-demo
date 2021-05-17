@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>BoundComponent Injection</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>BoundComponent Injection</h1>
+        <p class="lead">
+            The BoundComponent class contains the basics needed for attribute-based one-way and two-way binding of rendering to a view
+            model. The inject() and injectBind() (both basically aliases for the same thing) provide an easy way to convert
+            a lot of HTML on a page to BoundComponents in one go, being little more than a wrapper around
+            <code>document.querySelectorAll()</code> and
+            <code>new BoundComponent()</code>.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body" id="demoArea">
+                                <div ichigo>This div is a <i-v>.</i-v></div>
+                                <div ichigo>This div is a <i-v>.</i-v></div>
+                                <div ichigo>This div is also a <i-v>.</i-v></div>
+                                <div ichigo>Would you believe it, but this div is totally a <i-v>.</i-v></div>
+                                <div ichigo>This div is a <i-v>.</i-v> because it always goes along with the crowd.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p>
+                                    The inject() method is an override for the inject() method on the base Component class. It takes one additional property,
+                                    the view model for the component. Because it needs to be compatible with the base class
+                                    (JS/TS doesn't have proper overloading), the viewModel is at the end. You can use keyword
+                                    arguments to avoid having to fill all the arguments.
+                                </p>
+
+                                <p>
+                                    The injectBind() method calls inject(), except that the viewModel is the first property. This means you don't have to use
+                                    keyword arguments or dummy in undefined.
+                                </p>
+
+                                <a href="js/component-inject.js">Link to the demo script</a>
+
+                                <p class="h3 pt-3">API</p>
+
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Detail</th>
+                                    </thead>
+                                    <tr>
+                                        <th scope="row">
+                                            <code>inject(selector = '[ichigo]', options?, constructor?, viewModel?)</code>
+                                        </th>
+                                        <td>static method</td>
+                                        <td>
+                                            <p>
+                                                The inject method can be used to construct a single bound component (where it is not very useful) or multiple components from currently
+                                                existing HTML elements.
+                                                <ul>
+                                                    <li>
+                                                        selector: This selects the HTML elements to be modified. This can be a CSS selector to be passed into document.querySelectorAll(),
+                                                        a single element, a nodelist (the result of document.querySelectorAll()),
+                                                        an array, or an object containing {parent, selector}, which translates
+                                                        to
+                                                        <code>parent.querySelectorAll(selector)</code>.
+                                                    </li>
+                                                    <li>
+                                                        options: options to be passed into the bound component constructor. When injecting, you can set
+                                                        <code>replace</code> to true and include HTML for the new component, which deletes the
+                                                        existing element and uses the supplied HTML instead. If you send
+                                                        a string, this is the same as if you sent outerHtml and replace:
+                                                        true.
+                                                    </li>
+                                                    <li>
+                                                        constructor: constructor of the bound component class, if the constructed component is to be a different type of component.
+                                                        If not provided, the current component class is used.
+                                                    </li>
+                                                    <li>
+                                                        viewModel: view model for the bound component, which is an MVVM view. This can be left out (it has to be, because of its
+                                                        place in the argument list), but the component is almost completely
+                                                        useless as a result.
+                                                    </li>
+                                                </ul>
+
+                                                The return value is always an array of components, because inject() allows multiple replacements at a time (it's the very
+                                                reason it was created).
+                                            </p>
+                                        </td>
+
+                                    </tr>
+                                    tr>
+                                    <th scope="row">
+                                        <code>injectBind(viewModel, selector = '[ichigo]', options?, constructor?)</code>
+                                    </th>
+                                    <td>static method</td>
+                                    <td>
+                                        <p>
+                                            The inject method can be used to construct a single bpund component (where it is not very useful) or multiple components from currently
+                                            existing HTML elements.
+                                            <ul>
+                                                <li>
+                                                    viewModel: view model for the bound component, which is an MVVM view
+                                                </li>
+                                                <li>
+                                                    selector: This selects the HTML elements to be modified. This can be a CSS selector to be passed into document.querySelectorAll(),
+                                                    a single element, a nodelist (the result of document.querySelectorAll()),
+                                                    an array, or an object containing {parent, selector}, which translates
+                                                    to
+                                                    <code>parent.querySelectorAll(selector)</code>. The default, <code>[ichigo]</code>,
+                                                    matches any element with an attribute named 'ichigo' in it.
+                                                </li>
+                                                <li>
+                                                    options: options to be passed into the bound component constructor. When injecting, you can set
+                                                    <code>replace</code> to true and include HTML for the new component, which deletes the existing
+                                                    element and uses the supplied HTML instead. If you send a string, this
+                                                    is the same as if you sent outerHtml and replace: true.
+                                                </li>
+                                                <li>
+                                                    constructor: constructor of the bound component class, if the constructed component is to be a different type of component.
+                                                    If not provided, the current component class is used.
+                                                </li>
+
+                                            </ul>
+
+                                            The return value is always an array of components, because inject() allows multiple replacements at a time (it's the very
+                                            reason it was created).
+                                        </p>
+                                    </td>
+
+                                    </tr>
+
+                                </table>
+
+                                <p class="h3">Type definitions</p>
+                                <ul>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Component.d.ts">Component</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/BoundComponent.d.ts">BoundComponent</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Options/IInnerHtmlOptions.d.ts">IInnerHtmlOptions</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Options/IOuterHtmlOptions.d.ts">IOuterHtmlOptions</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/Options/IComponentBindingOptions.d.ts">IComponentBindingOptions</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo">
+                <img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home">
+            </a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+
+<script src="js/component-inject.js"></script>
+
+</html>

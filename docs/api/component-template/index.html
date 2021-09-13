@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>BoundComponent Template Strings</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+</head>
+<body>
+
+    <div class="container-fluid">
+        <h1>BoundComponent Template Strings</h1>
+        <p class="lead">
+            The BoundComponent class includes functionality for inserting variables into strings that are displayed. Typically this is done with some variation of handlebars.js, something like &lt;p&gt;Hello {{planet}}&lt;/p&gt;, or if you're using HTML5 template strings (which are misnamed because they don't work as templates), &lt;p&gt;Hello ${planet}&lt;/p&gt;. Ichigo takes a different approach. Ichigo's templating language is more integrated with HTML, because Ichigo is a framework for producing web content. Content to be replaced by a bound string must be stored in an "i-v" HTML element containing a variable or parameterless function, as in the following example:<br/>
+            <code>&lt;p&gt;Hello &lt;i-v&gt;planet&lt;/i-v&gt;&lt;/p&gt;</code>
+        </p>
+        <p class="lead">
+            At this point you might be wondering why Ichigo uses something odd when all the other web frameworks use some variation of handlebars templating. Is it just to be different?  Well, no, it's to make the framework programmer's life easier. If at this point you're thinking, "Oh, what a lazy bastard," you can FUCK RIGHT OFF! Ok, that's a little confrontational, sorry, but I'm not going to write sloppy code just because everyone else does.
+        
+            TBH I did actually write it a few years ago. It had a lot of regular expressions. <quote><em class="text-muted">Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems.</em></quote> Then I realized that I'm not building strings but browser content, and browsers already have a way to isolate elements, fill content, and escape tags. It's called the document object model and it's been around for how many years -- really I'm asking, how many years, I'm having a hard time finding the starting
+            point ... seems to be 1997 ...
+        </p>
+        <p class="lead">
+            Anyway, that went way off into tangent-land, but the point is that values to be replaced are just HTML elements like spans. This implementation allows the framework code to fill them using standard HTML5 methods that exist in every modern browser, a fact which allows the framework programmer to sleep at night without feeling like he hacked some shit up. As sleep is critical for human health, this makes life easier.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body">
+                                <p id="testComponent1">
+                                    Hello <i-v>planet</i-v>.
+                                    <span id="testComponent2">
+                                        I come here from <i-v component="innerComponent">.</i-v>.
+                                    </span>
+                                </p>
+                                <div id="testComponent3">
+                                    This is a list of neighboring planets who have asked me to mention them to any intelligent beings I met:
+                                    <ul><i-v noescape class="text-uppercase">advertising</i-v></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+                                <p>
+                                    A text item to be replaced with bound text should be inserted as an &lt;i-v&gt; tag, where the content is a property of the object bound to the component, as in the following example:
+                                    <code>&lt;div id="test"&gt;My name is &lt;i-v&gt;name&lt;/i-v&gt;&lt;/div&gt;</code> bound with <code>new BoundComponent({ name: 'Sam' }, { selector: '#test' })</code>.
+                                </p>
+                                <p>
+                                    The innerHTML of the i-v element is the property name, found on the component view model, to use for the new content of the element. It can also be a method of the view model; if used, the method is called with no arguments (<em>for now</em>). It can also be the view model itself -- to do this, set the innerHTML to a period by itself (&lt;i-v&gt;.&lt;/i-v&gt;) -- this can make sense if the view model is a simple object such as a string and makes no sense if you display [object Object].
+                                </p>
+                                <p>
+                                    By default the replaced content is HTML escaped. If you want it to be raw text, allowing HTML tags to appear in the output, add a noescape attribute, as in <code>&lt;i-v noescape&gt;</code>.
+                                </p>
+                                <p>
+                                    By default, all i-v elements are replaced. If you want to include a tag inside multiple nested components, and only want to associate the element with one of them, set the "component" attribute to the name of the component, as in <code>&lt;i-v component="innerComponent"&gt;</code>.
+                                </p>
+                                <p>
+                                    When a component is initially rendered, i-v elements are replaced with their expected values. When the component is re-rendered (because it observing object changes, for examples), i-v elements are re-populated. i-v elements are regular HTML elements, so they can take styles, CSS classes, etc.  Unless you choose to destroy them (by, for example, setting innerHTML of a parent), these i-v elements stay where you left them, so they can be safely referenced in code.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo"><img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home"></a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="js/component-template.js"></script>
+
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Tic Tac Toe</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+    <link rel="stylesheet" href="css/tic-tac-toe.css" />
+</head>
+<body>
+
+    <div class="container-fluid">
+        <h1>Tic Tac Toe</h1>
+        <p class="lead">
+            Here is one of the simplest games, Tic Tac Toe. Only slightly more complex than janken, it's a good demo case for components,
+            especially if you make it a lot more complicated than it needs to be, as this does. It's the reason that the React tutorial uses it and why I'm ripping them off.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body" id="demoArea">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+                                <p>
+                                    This example shows an implementation of the child's game of tic tac toe. The implementation requires a component and back-end class for the overall game plus for each the boxes (9 copies of the same thing). Bootstrap's grid classes are used to make the game board, which means the UI doesn't need to care about what's on what row.
+                                </p>
+
+                                <p>
+                                    <span class="h4">Usings</span>: Three Ichigo components are used in this page. Rather than reference them throughout by the full namespaced name (mi5.blah.blah.blah), this uses the mi5.using function to assign the variable in the first argument to the alias in the second argument. After running mi5.using <code>(mi5.component.BoundComponent, 'BoundComponent')</code>, you can reference it simply by 'BoundComponent' (or whatever).
+                                </p>
+
+                                <p>
+                                    <span class="h4">GameModel</span>: This sets up properties to store game state and methods to implement the rules of the game.
+                                </p>
+
+                                <p>
+                                    The GameModel constructor sets up the object. Only variables that need to be updated in the UI are using ObservableProperties, and there are only four of them, total. The React demo I'm ripping off used state objects, but this really too simple for that. State is important to React, so it's worth demoing it even if it's overkill, but Ichigo doesn't care. Ichigo is all about simplicity.
+                                </p>
+
+                                <ul>
+                                    <li>playerX: Indicates if X is playing (else it's O)</li>
+                                    <li>status: A text message that is displayed</li>
+                                    <li>won (not observable): Tracks internally if the game has been won or not</li>
+                                    <li>moves (not observable): Tracks internally if the game is unwinnable (all 9 moves made)</li>
+                                </ul>
+
+                                <p>
+                                    The boxes themselves are stored as a 3x3 map of BoxModel, where the map key is x + comma + y.  There are 9 possible winning layouts. We brute force it by storing all in an array.
+                                </p>
+
+                                <p>
+                                    The <code>set()</code> method, which is called when a box is clicked, halts if the game is already won. It looks up the BoxModel by using Map's get() method and if <code>value</code> is not blank, halts because the box has already been played (setting the status displayed to INVALID MOVE). Otherwise, it sets <code>value</code> and then checks to see if the play is a winning play by calling checkWin().
+                                </p>
+
+                                <p>
+                                    The <code>checkWin()</code> method is called for whoever just clicked a box and goes through each of the 8 winning moves and sees if every one of the boxes matches that value. If so, the user has won and the status displayed on the screen becomes GAME WON. Also, it sets <code>winningMove.value</code> on the squares that were responsible for the win to true.  If the user did not move, then <code>moves</code> is incremented and the displayed status is updated.
+                                </p>
+
+                                <p>
+                                    The <code>currentPlayer()</code> method returns X or O depending on the value of the playerX boolean.
+                                </p>
+
+                                <p>
+                                    The <code>clear()</code> method resets everything to start.
+                                </p>
+
+                                <p>
+                                    <span class="h4">BoxModel</span>: BoxModel creates two observable properties for each box and creates a getter and setter to quickly access the value of xy.
+                                </p>
+
+                                <ul>
+                                    <li>xy: Stores either X or Y, for whoever played this box</li>
+                                    <li>winningMove: After the game is won, this stores true if the box was part of the winning move</li>
+                                </ul>
+
+                                <p>
+                                    <span class="h4">GameView</span>: GameView creates an instance of GameModel and generates the overall HTML for the game board:
+                                    <code> super(new GameModel(), { outerHtml: ` [ A BUNCH OF HTML ] `, observeAllViewModel: true });</code>
+                                </p>
+
+
+                                <p>
+                                    The HTML uses the following Ichigo features:
+                                </p>
+
+                                <p>
+                                    <code>&lt;div class="row" :loop="db"&gt;&lt;div class="col-4" :item&gt;&lt;/div&gt;&lt;/div&gt;</code>: Creates a loop for every item in "db" whose items are the div marked with <code>:item</code>. "row" and "col-4" are part of the Bootstrap grid system. See below for notes about this child loop.
+                                </p>
+
+                                <p>
+                                    <code>Current Player: &lt;i-v&gt;currentPlayer&lt;/i-v&gt;</code>: Displays the value of currentPlayer, which is a method in this case, showing the value of the playerX observable property.
+                                </p>
+
+                                <p>
+                                    <code>Status: &lt;i-v&gt;status&lt;/i-v&gt;</code>: Displays the value of status, which is an observable property.
+                                </p>
+
+                                <p>
+                                    <code>&lt;button class="btn btn-secondary w-100" type="button" :event (click)="reset" component="reset"&gt;Reset&lt;/button&gt;</code>: When the <code>addInlineListeners()</code> event is called, the reset method is bound to the reset button's click event.
+                                    </p>
+
+                                <p>
+                                    <span class="h4">GameView's child loop</span>: Custom attributes are more complicated than i-v tags, which need only a string. They work by modifying <code>content</code> (which is a property of the BoundComponent) and getting data from <code>viewModel</code> (likewise) and use a number of other properties. Because of this, only the topmost element is processed for custom attributes, such as <code>:loop</code>.
+                                </p>
+                                <p>
+                                    In this example, you'll see the loop is a child of GameView, so the <code>:loop</code> attribute isn't part of GameView. But the loop is so simple that it would be a waste to create a LoopComponent class; it can work with nothing more than default functionality. So we write an inject statement to inject a simple BoundComponent.  <code>BoundComponent.injectBind(this.viewModel, { parent: this.content, selector: '.row' }, { loopItemClass: BoxView })</code>. This finds the row and makes it a component whose loop items are BoxView.
+                                </p>
+                                <p class="text-muted">
+                                    (There is an auto-inject method, but we cannot use it for the loop, because the loop requires additional
+                                    properties (loopItemClass), which cannot be predicted automatically. We must write it manually. I added an auto-injection method but it's kind of useless without user-specified options. I may be deleting it or replacing it with a function that just returns all elements with Ichigo custom properties.)
+                                </p>
+
+                                <p>
+                                    <span class="h4">BoxView</span>: This class is called once for each row in GameView's loop, after the looping HTML has been added to the page. This class turns that HTML into a component.
+                                </p>
+
+                                <p>
+                                    In this case, because it is more attractive to have a box with wide borders between columns, and the Bootstrap grid system fails if there are margins between columns, it puts an inner div inside the outer div, with a nice bit of margin in the CSS: <code>&lt;div class="box" :event (click)="onClick" component="box"&gt;&lt;i-v&gt;value&lt;/i-v&gt;&lt;/div&gt;</code>
+                                </p>
+
+                                <p>
+                                    The viewModel passed into the BoxView is a BoxModel, which has properties for <code>value</code> (displayed in the div) and <code>winningMove</code>. The winningMove property is used in a custom attribute, which you'll remember from the GameView loop discussion above needs to be stored at the component level. <code>options.attributes = { ':switch:success': 'winningMove' }</code> adds <code>:switch:success</code> to the <code>&lt;div class="col-4" :item&gt;</code> element (there are other ways to skin this cat but that's the one I liked).
+                                </p>
+
+                                <p>
+                                    Once the options have been prepared, the BoundComponent constructor is called using super();  The x/y coordinates for the box are stored, along with a reference to the GameModel.
+                                </p>
+
+                                <code><pre>
+    const [x, y] = loopItem[0].split(',');
+    this.x = x;
+    this.y = y;
+    this.game = options.parent.viewModel;</pre></code>
+
+                                <p>
+                                    The onClick() event calls the game's <code>set()</code> method.
+                                </p>
+
+                                <p>
+                                    You'll notice that no logic happens in GameView, BoxView, or even BoxModel. Everything happens in GameModel, which triggers updates to the UI whenever an ObservableProperty is updated.
+                                </p>
+
+                                <p>
+                                    <a href="js/tic-tac-toe.js">Link to the script</a><br/>
+                                    <a href="css/tic-tac-toe.css">Link to the stylesheet</a>
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo"><img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home"></a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="js/tic-tac-toe.js"></script>
+
+</html>

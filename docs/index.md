@@ -22,6 +22,7 @@ remotely exciting.
 * [Unit Test Bench](demo/test-bench): Basic unit tests
 * [Hello World](demo/hello-world): Every programming demo has to start with Hello World, by law
 * [Simple Counter](demo/simple-counter): A simple counter using one-way binding and prototype extensions
+* [Tic Tac Toe](demo/tic-tac-toe): One of the simplest computer games
 * [Page Router](demo/page-router): A basic single page app page router demo
 
 ## API Deep Dives

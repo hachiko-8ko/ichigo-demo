@@ -134,7 +134,7 @@ class GameView extends BoundComponent {
         });
 
         // Create a generic component to manage the loop
-        BoundComponent.injectBind(this.viewModel, { parent: this.content, selector: '.row' }, { loopItemClass: BoxView });
+        BoundComponent.injectBind(this.viewModel, '.row', { parent: this.content, loopItemClass: BoxView });
 
         // We have nested click events so the component filter is needed. Is this cleaner than document.getElementById('resetButton').addEventListener()?
         // Not really.
@@ -169,7 +169,7 @@ class BoxView extends BoundComponent {
         this.x = x;
         this.y = y;
 
-        this.game = options.parent.viewModel;
+        this.game = options.loopParent.viewModel;
 
         this.addInlineEventListeners('box');
     }

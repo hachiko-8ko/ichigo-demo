@@ -85,7 +85,7 @@
                                                     <li>
                                                         selector: This selects the HTML elements to be modified. This can be a CSS selector to be passed into document.querySelectorAll(),
                                                         a single element, a nodelist (the result of document.querySelectorAll()),
-                                                        an array, or an object containing {parent, selector}, which translates
+                                                        or an array. If "selector" is a string and "parent" is included in options, this translates
                                                         to
                                                         <code>parent.querySelectorAll(selector)</code>.
                                                     </li>
@@ -128,7 +128,7 @@
                                                 <li>
                                                     selector: This selects the HTML elements to be modified. This can be a CSS selector to be passed into document.querySelectorAll(),
                                                     a single element, a nodelist (the result of document.querySelectorAll()),
-                                                    an array, or an object containing {parent, selector}, which translates
+                                                    or an array. If "selector" is a string and "parent" is included in options, this translates
                                                     to
                                                     <code>parent.querySelectorAll(selector)</code>. The default, <code>[ichigo]</code>,
                                                     matches any element with an attribute named 'ichigo' in it.

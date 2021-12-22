@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Component Custom HTML Properties/Attributes</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+    <style>
+        .red {
+            color: red;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Component Custom HTML Properties/Attributes</h1>
+        <p class="lead">
+            The data-based formatting of the content of the bound component can be configured by custom HTML attributes, which can be
+            specified in several ways. By default, custom ichigo attributes begin with the string "i5_" as in the example
+            <code>i5_html</code>, but as a shortcut you might prefer to use the colon ":" in place of "iv_" as in
+            <code>:html</code>.
+        </p>
+        <p class="lead">
+            Both those attribute schemas are valid HTML, but to purists, attributes not in the HTML standard should be avoided. I can
+            totally relate to the purist point of view, so you can also use data attributes (e.g.
+            <code>data-i5_html</code>) or the properties or attributes of the component constructor (e.g.
+            <code>new BoundComponent(vm, { properties: { i5_html: "someField" } }</code>). The colon (which isn't valid in JS properties) can be replaced by underscore. The minus sign can be replaced
+            by zero.
+        </p>
+        <p class="lead">
+            The value of the custom attribute is the field on the view model that should be used to provide the value. There are a few
+            variations. For more information, see the page on component value sources, once it has been written.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body" id="demoArea">
+                                <div :name="d1"><i-v component="d1">world</i-v> ... <i-v>nonmatching</i-v></div>
+                                <div :text="htmlText"></div>
+                                <div :html="htmlText"></div>
+                                <div><input :value="one" /></div>
+                                <div><input :input="tgt1" /> <input :value="tgt1" /></div>
+                                <div><input :input :target="tgt2" /> <input :value="tgt2" /></div>
+                                <div>A copy: <input :input:="tgt2" /></div>
+                                <!-- Note: This is just to be visible. :value is better than :attr:value. -->
+                                <div><input :attr:value="two" /></div>
+                                <div><input :bool:disabled="truthy" value="Should be disabled" /></div>
+                                <div><input :bool:disabled="falsy" /></div>
+                                <div><input :bool-:disabled="truthy" /></div>
+                                <div><input :bool-:disabled="falsy" value="Should be disabled" /></div>
+                                <div :style="style">Some styled content</div>
+                                <div :class="className">Some red bold content</div>
+                                <div :switch:red="truthy">Some red content</div>
+                                <div :switch-:bold="falsy">Some bold content</div>
+                                <div :if="truthy">Visible (shouldn't see "Invisible" below)</div>
+                                <div :if-="truthy">Invisible (shouldn't see this)</div>
+                                <div :loop="iterable"><span :item><i-v>.</i-v> </span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <a href="js/component-properties.js">Link to the demo script</a>
+
+                                <p class="h3 pt-3">API</p>
+
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">Detail</th>
+                                    </thead>
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_name</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets the name of a component. When set, i-v replacement tags are only updated if they match the name, allowing nested components
+                                                to have replacement values, as in this example:
+                                                <code>&lt;div iv_name="the name"&gt; &lt;i-v component="the name"&gt;updated_prop&lt;/i-v&gt; &lt;i-v component="something else"&gt;not_updated_prop&lt;/i-v&gt; &lt;/div&gt;</code>
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_text</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets the innerHTML, escaping HTML.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_html</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets the innerHTML, not escaping HTML.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_value</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets the value of the form field (only works for form fields). It works even on form fields, such as textarea, that don't have a value attribute.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_input</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Binds input events on the form field to the BoundComponent.write() method. If the view model property (which is optional)
+                                                is set, it indicates the field that should be updated.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_target</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets additional properties to be updated by BoundComponent.write().
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>:input: or i5_input: or i5_input_value</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets up two-way binding on a view model property. A shortcut for
+                                                <code>:input="prop" :value="prop"</code>.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_target</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Binds input events on the form field to the BoundComponent.write() method.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_attr:some_attribute_name or i5_attr_some_attribute_name</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets the attribute named some_attribute_name.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_bool:some_attribute_name or i5_bool_some_attribute_name</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Adds the boolean attribute named some_attribute_name if the view model property is truthy, else removes it.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_bool-:some_attribute_name or i5_bool0_some_attribute_name</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Removes the boolean attribute named some_attribute_name if the view model property is truthy, else adds it.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_style</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets the style string.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_class</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Sets the className string.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_switch:some_class_name or i5_switch_some_class_name</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Adds the class named some_class_name if the view model property is truthy, else removes it.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_switch-:some_class_name or i5_switch0_some_class_name</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Removes the class named some_class_name if the view model property is truthy, else adds it.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_if</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Hides the object (using CSS display:none) if the view model property is truthy, else shows it. If it was previously set to,
+                                                for example, display:block, then that will be restored. If it wasn't, then
+                                                Ichigo can't read your mind so hopefully you don't need a specific display
+                                                property. You could complain to the W3C to split visibility and blocking
+                                                into two properties, but you'd do better to just use a class.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_if- or i5_if0</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Hides the object (using CSS display:none) if the view model property is falsy, else shows it.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_loop</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Repeat the contents of the element once for every item in the view model iterable. After each item is added, the method loopPostProcess()
+                                                is called taking these inputs:
+                                                <code>(row: ItemIterated, addedContent: Node[], allRows: Iterable, previousContent: DocumentFragment)</code>. LoopPostProcess is intended to convert the added HTML to a component.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_loop:null or i5_loop_null</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Repeat the contents of the element once for every item in the view model iterable. After each item is added, the method loopPostProcess()
+                                                is NOT called.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_item</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                After content has been repeated using i5_loop, the i5_loop selector indicates the HTML object that should be converted to
+                                                a component by loopPostProcess(). The property of the i5_item attribute does
+                                                not matter.
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            <code>i5_event (eventName)="method"</code>
+                                        </th>
+                                        <td>
+                                            <p>
+                                                Calls addEventListener(eventName, component[method].bind(component)).
+                                            </p>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                                <p class="h3">Type definitions</p>
+                                <ul>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/HtmlComponent/BoundComponent.d.ts">BoundComponent</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo">
+                <img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home">
+            </a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+
+<script src="js/component-properties.js"></script>
+
+</html>

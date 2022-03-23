@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Component Methods</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+    <style>
+        .red {
+            color: red;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Component Methods</h1>
+        <p class="lead">
+            All the methods that set properties of the component (classes, innerHTML, etc) can all be called manually. Of course, since
+            javascript has no concept of private methods, this is always the case, but I mean it's part of the accepted API
+            to call them manually. You don't have to use the
+            <code>&lt;div iv_text="i5_properties"&gt;&lt;/div&gt;</code> if you don't want to. In general, my philosophy is to keep things simple, even if that means removing features,
+            but if could be useful and it doesn't make the code any more difficult, then I'm not going to block it. I'm not
+            Apple, here.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body" id="demoArea">
+                                <div class="test"></div>
+                                <div class="test"></div>
+                                <div>
+                                    <input class="test" />
+                                </div>
+                                <div>
+                                    <input class="test" />
+                                    <input class="test" />
+                                </div>
+                                <div>
+                                    <input class="test" value="Should be disabled" />
+                                </div>
+                                <div>
+                                    <input class="test" value="Should be disabled" />
+                                </div>
+                                <div class="test">Some styled content</div>
+                                <div class="test">Some red bold content</div>
+                                <div class="test">Some red content</div>
+                                <div class="test">Some bold content</div>
+                                <div class="test">Visible (shouldn't see "Invisible" below)</div>
+                                <div class="test">Invisible (shouldn't see this)</div>
+                                <div class="test"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+                                <a href="js/component-method.js">Link to the demo script</a>
+
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <th scope="col">Method</th>
+                                        <th scope="col">Example</th>
+                                        <th scope="col">Detail</th>
+                                    </thead>
+                                    <tr>
+                                        <th scope="row">
+                                            render()
+                                        </th>
+                                        <td>
+                                            <code>obj.render()</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Manually trigger rendering of the component. Most frequent use is as the payload of an event handler.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            setTemplate(templateText: string, update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.setTemplate("&lt;i-v&gt;some-prop&lt;/i-v&gt;")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the innerHTML template. If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            setTextTemplate(templateProperty: string = '.', update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.setHtmlTemplate("some text")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the innerHTML equal to the string given, escaped (the same as the :text property). If update is true, render is called
+                                                at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            setHtmlTemplate(templateProperty: string = '.', update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.setHtmlTemplate("&lt;div&gt;some text&lt;/div&gt;")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the innerHTML equal to the HTML given, with escaping disabled (the same as the :html property). If update is true, render
+                                                is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            setLoop(source: string = '.', fragment: DocumentFragment | string, skipPostProcess: boolean = false, update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.setLoop("someListProperty", "&lt;div class="inner-loop"&gt;&lt;i-v&gt;some-prop&lt;/i-v&gt;&lt;/div&gt;")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the loop iterable and template text (the same as the :loop property & innerHTML template). If update is true, render
+                                                is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            removeLoop(update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.removeLoop()</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Delete the loop configuration. If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            setValueAttribute(source: string | undefined = '.', update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.setValueAttribute("some-prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the form value (the same as the :value property). If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            setVisibility(source: string | undefined = '.', negative: boolean = false, update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.setValueAttribute("some-prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the visibility source (the same as the :if property). If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            addBooleanAttributeMapping(attribute: string, source: string = '.', update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.addBooleanAttributeMapping("disabled", "some-prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the boolean attribute source (the same as the :bool:foo property). If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            removeAttributeMapping(attribute: string, update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.removeAttributeMapping("some-prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Remove an attribute mapping (boolean or otherwise). If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            setCssClass(cls: string | undefined = '.', update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.setCssClass("some-prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the CSS class source (the same as the :class property). If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            setCssStyle(style: string | undefined = '.', update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.setCssStyle("some prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the CSS style source (the same as the :style property). If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            addCssClassSwitch(cls: string, source: string = '.', negative: boolean = false, update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.addCssClassSwitch("some-class", "some-prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the CSS switch class and source (the same as the :switch:foo property). If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            addWriteEvent()
+                                        </th>
+                                        <td>
+                                            <code>obj.addWriteEvent()</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Add an 'input' event linked to the component's write method. Same as
+                                                <code>obj.content.addEventListener('input', obj.write.bind(obj));</code>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            addWriteTarget(target: string = '.', update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.addWriteTarget("some-prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Set the built-in write() event to write the contents of the write to the property specified (same as :target). If update
+                                                is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            removeWriteTarget(target: string, update: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>obj.removeWriteTarget("some-prop")</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Remove a target for the build-in write event. If update is true, render is called at the end.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo">
+                <img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home">
+            </a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="js/component-method.js"></script>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Keyword Arguments</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Keyword Arguments</h1>
+        <p class="lead">
+            Javascript's handling of input arguments is totally primitive. The best they've managed so far is default parameters, as long as you work from left to right and don't skip anything. In javascript you can call <code>function(arg1, arg2)</code> or <code>function(arg1, arg2, arg3)</code> but if you want to call <code>function(arg1, arg3)</code> you're screwed. The best you can do is <code>function({arg1, arg3})</code>, which requires you to write your code avoiding positional arguments entirely. And if you want to make some of those properties required in Typescript, you will want to kill yourself.
+        </p>
+        <p class="lead">
+            Typescript attempts to bring in method overloading, but similar to its implementation of required input object properties, the implementation is something out of nightmares. Arguably, it is even worse. It's understandable; there's only so much you can do when the underlying language is vehemently opposed to a feature.
+        </p>
+        <p class="lead">This is a problem languages like Python solved with what they call "keyword" arguments. In Python, you can pass the first and third arguments like this: <code>function(arg1, thirdInput = arg3)</code>. "thirdInput" is a "keyword." C# then stole that feature (C# always had method overloading, but I don't have a way to simulate that in JS ... maybe I'll think of something).</p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body" id="demoArea">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+                                <a href="js/keyword-arguments.js">Link to the demo script</a>
+
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <th scope="col">Feature</th>
+                                        <th scope="col">Example</th>
+                                        <th scope="col">Detail</th>
+                                    </thead>
+                                    <tr>
+                                        <th scope="row">
+                                            Kwarg.parseArgs(args: {}, allowUnknownKeyword: boolean = false)
+                                        </th>
+                                        <td>
+                                            <code>function parrot(voltage, state = 'a stiff', action = 'voom', type = 'Norwegian Blue') {
+                                                ({voltage, state = 'a stiff', action = 'voom', type = 'Norwegian Blue} = Kwarg.parseArgs({voltage, state, action, type})); }
+                                            </code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                To add support for keyword arguments, you must add a call to Kwarg.parseArgs in your method, with an object on the left side and the right, in parentheses, using the pattern <code>({something} = Kwarg.parseArgs({something})</code>. For "something" on the left side, copy and paste your function arguments. For "something" on the right side, paste the same thing, but delete any default values.
+                                            </p>
+                                            <p>
+                                                Yes, this is annoying AF. This is something that's not supported by JS, so whatever we do is going to have to require some code change. But at least it's down to three copy/paste operations, which is as minimal as I could get it.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            kw({name: value})<br/>
+                                            kw('name', value)<br/>
+                                            kw(['name', value])
+                                        </th>
+                                        <td>
+                                            <code>parrot('a thousand', kw(['state', 'pushing up the daisies']))</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Once support has been added to a method, you can use a keyword argument by using the kw() method, which can take either two arguments, a one-key object, or a two-element array. The kw() method can be inserted anywhere in the argument list, allowing you to mix keyword and positional arguments. It is, however, standard to only include keyword arguments after positional arguments (but there's no way to validate it).
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            $$kw$$
+                                        </th>
+                                        <td>
+                                            <code>({$$kw$$} = Kwarg.parseArgs({pos1, pos2}))</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                $$kw$$ is loaded with an object containing any keyword arguments used by the caller that aren't a formal parameter. So for example, if your function took pos1 and pos2 and the caller specified kw['pos3', true], $$kw$$ would be { pos3: true };
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            $rest$
+                                        </th>
+                                        <td>
+                                            <code>({$rest$} = Kwarg.parseArgs({pos1, pos2, ...rest}))</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                $rest$ is an array loaded with any rest arguments. Note that rest arguments must appear last in javascript.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            Kwarg.unpack(args: {})
+                                        </th>
+                                        <td>
+                                            <code>parrot(...Kwarg.unpack({ action: "VOOM", voltage: "four million", state: "bleedin' demised" }));</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                The Kwarg.unpack() method transforms an object into an array of kw objects, which can be passed into a function.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo">
+                <img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home">
+            </a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="js/keyword-arguments.js"></script>
+
+</html>

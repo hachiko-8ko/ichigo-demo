@@ -29,6 +29,8 @@ remotely exciting.
 
 Complete demos of all the capabilities of certain objects.
 
+* [Keyword Arguments](api/keyword-arguments): Pythonish keyword arguments
+* [HTML](api/html-helpers): HTML helper functions
 * [Component](api/component-base): Component base properties
 * [Component & Bound Component](api/component-ctor): Component constructors
 * [Bound Component](api/component-inject): Component injection

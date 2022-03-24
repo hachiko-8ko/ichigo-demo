@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>HTML Helpers</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>HTML Helpers</h1>
+        <p class="lead">
+            Ichigo includes some simple HTML creation methods, which are just wrappers around HTML5 methods but with a slightly friendlier API.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="demoArea"></div>
+                                <form></form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+
+                                    <a href="js/html-helpers.js">Link to the demo script</a>
+
+                                    <table class="table table-striped table-hover">
+                                            <thead>
+                                                <th scope="col">Method</th>
+                                                <th scope="col">Example</th>
+                                                <th scope="col">Detail</th>
+                                            </thead>
+                                            <tr>
+                                                <th scope="row">
+                                                    createElement(tagName: string, properties: {} = {}, attributes?: {})
+                                                </th>
+                                                <td>
+                                                    <code>const div = createElement('div', { innerHTML: "I am some content" })</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        createElement creates an element with the supplied tag. It contains two optional objects which can be used to send one or more HTML properties or attributes. For convenience, you can send attributes on the properties object (<code>{ attributes: {}}</code>) or use keyword arguments (<code>kw('attributes', {})</code>).
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    createHtml(html: string, inline = false)
+                                                </th>
+                                                <td>
+                                                    <code>const element = createHtml('&lt;div&gt;Some content&lt;/div&gt;')</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        createHtml creates an element from a string of raw HTML. There are some limitations here, because it must always return an HTMLElement. This means if you give it HTML for multiple elements (a string of three DIVs, for example) or zero elements (the string "Hello World" for example), it returns those inside a wrapper DIV (if inline is false) or SPAN (if inline is true). If you give it HTML for a single element, it returns that element.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    createFragment(html: string)
+                                                </th>
+                                                <td>
+                                                    <code>const fragment = createFragment('&lt;div&gt;Some content&lt;/div&gt;')</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        createFragment creates a DocumentFragment from whatever HTML you give it.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    anchor(innerHtml: string, href: string, properties?: {}, attributes?: {}) <br />
+                                                    anchor(innerHtml: string, properties?: {}, attributes?: {}) <br />
+                                                    anchor(properties?: {}, attributes?: {})
+                                                </th>
+                                                <td>
+                                                    <code>const a = anchor('Click here!', 'https://github.com/hachiko-8ko/ichigo-demo' )</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Creates an anchor tag. Accepts keyword arguments.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        button(innerHtml: string, properties?: {}, attributes?: {})<br/>
+                                                        button(properties?: {}, attributes?: {})
+                                                </th>
+                                                <td>
+                                                    <code>const btn = button('Click here!', { id: 'myButton' })</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Creates a button tag. Accepts keyword arguments.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        div(innerElement: HTMLElement, properties?: {}, attributes?: {})<br/>
+                                                        div(innerHtml: string, properties?: {}, attributes?: {})<br/>
+                                                        div(properties?: {}, attributes?: {})
+                                                </th>
+                                                <td>
+                                                    <code>const mydiv = div(btn, { id: myDiv' })</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Create a div tag. You can supply inner HTML or another HTMLElement to populate as content. Accepts keyword arguments.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        paragraph(innerHtml: string, properties?: {}, attributes?: {})
+                                                        paragraph(properties?: {}, attributes?: {})
+                                                </th>
+                                                <td>
+                                                    <code>const p = paragraph('Some text')</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Create a p tag having supplied content. Accepts keyword arguments.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        span(innerElement: HTMLElement, properties?: {}, attributes?: {})<br/>
+                                                        span(innerHtml: string, properties?: {}, attributes?: {})<br/>
+                                                        span(properties?: {}, attributes?: {})
+                                                </th>
+                                                <td>
+                                                    <code>const s = span('Some inner content')</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Create a span tag. You can supply inner HTML or another HTMLElement to populate as content. Accepts keyword arguments.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        deleteNodeContent(node: Node)
+                                                </th>
+                                                <td>
+                                                    <code>deleteNodeContent(myDiv)</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Delete all the content of an HTML element.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        extractNodeContent(node: Node)
+                                                </th>
+                                                <td>
+                                                    <code>const frag = extractNodeContent(myDiv)</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Remove the content of an HTML element and return it as a DocumentFragment.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        escapeHtml(input: string)
+                                                </th>
+                                                <td>
+                                                    <code>const html = escapeHtml('A &lt;&#x3D; B')</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Return the input string with HTML characters escaped.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        getFormFieldValue(element: HTMLElement)
+                                                </th>
+                                                <td>
+                                                    <code>const name = getFormFieldValue(document.querySelector('input#name'))</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        Extract the form field value from an input, checkbox, select (single or multiple), radio, or textarea. Each of these has a slightly different HTML5 API, but this function transforms it into a string (most cases), boolean (checkbox), number (input with type numeric), or string array (multiple select).
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                    <th scope="row">
+                                                            setFormFieldValue(element: HTMLElement, value: FormFieldValue)
+                                                    </th>
+                                                    <td>
+                                                        <code>setFormFieldValue(mySelectBox, ['red', 'green'])</code>
+                                                    </td>
+                                                    <td>
+                                                        <p>
+                                                            Set the value of an input, checkbox, select (single or multiple), radio, or textarea. Each of these has a slightly different HTML5 API, but this function allows you to treat them all as a simple value operation.
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        nodeListSelector(nodes: NodeList | Node[], selector: string)
+                                                </th>
+                                                <td>
+                                                    <code>const firstblue = nodeListSelector(inputs, '.blue')</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                        nodeListSelector is a version of element.querySelector() that can work on a NodeList (which is the output of querySelectorAll) or a node array.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                        nodeListSelectorAll(nodes: NodeList | Node[], selector: string)
+                                                </th>
+                                                <td>
+                                                        <code>const allblue = nodeListSelector(inputs, '.blue')</code>
+                                                </td>
+                                                <td>
+                                                    <p>
+                                                            nodeListSelectorAll is a version of element.querySelectorAll() that can work on a NodeList (which is the output of querySelectorAll) or a node array.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo">
+                <img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home">
+            </a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="js/html-helpers.js"></script>
+
+</html>

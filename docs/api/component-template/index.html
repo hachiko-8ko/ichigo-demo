@@ -44,9 +44,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <p id="testComponent1">
-                                    Hello <i-v>planet</i-v>.
+                                    Hello <i-v outer_component>planet</i-v>.
                                     <span id="testComponent2">
-                                        I come here from <i-v component="innerComponent">.</i-v>.
+                                        I come here from <i-v inner_component>.</i-v>.
                                     </span>
                                 </p>
                                 <div id="testComponent3">
@@ -70,7 +70,7 @@
                                     By default the replaced content is HTML escaped. If you want it to be raw text, allowing HTML tags to appear in the output, add a noescape attribute, as in <code>&lt;i-v noescape&gt;</code>.
                                 </p>
                                 <p>
-                                    By default, all i-v elements are replaced. If you want to include a tag inside multiple nested components, and only want to associate the element with one of them, set the "component" attribute to the name of the component, as in <code>&lt;i-v component="innerComponent"&gt;</code>.
+                                    By default, all i-v elements are replaced. If you want to include a tag inside multiple nested components, and only want to associate the element with one of them, add a custom attribute matching the name of the component, as in <code>&lt;i-v inner_component&gt;</code>.
                                 </p>
                                 <p>
                                     When a component is initially rendered, i-v elements are replaced with their expected values. When the component is re-rendered (because it observing object changes, for examples), i-v elements are re-populated. i-v elements are regular HTML elements, so they can take styles, CSS classes, etc.  Unless you choose to destroy them (by, for example, setting innerHTML of a parent), these i-v elements stay where you left them, so they can be safely referenced in code.

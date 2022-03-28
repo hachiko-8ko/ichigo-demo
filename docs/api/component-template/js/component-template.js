@@ -9,6 +9,6 @@ const vm = {
     `
 };
 const str = () => 'Earth';
-const c1 = new BC(vm, { selector: '#testComponent1' });
-const c2 = new BC(str, { selector: '#testComponent2', name: 'innerComponent' });
+const c1 = new BC(vm, { selector: '#testComponent1', name: 'outer_component' });
+const c2 = new BC(str, { selector: '#testComponent2', name: 'inner_component' });
 const c3 = new BC(vm, { selector: '#testComponent3' });

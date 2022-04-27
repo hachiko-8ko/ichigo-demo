@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Promises and Event Handlers</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Promises and Event Handlers</h1>
+        <p class="lead">
+            Promises are the basic unit of asynchronous programming in the Web. Promises are tasks, and they have two basic
+            fundamental properties: they start when you create them and they execute only once. These two points are fine
+            for doing this like doing a fetch() over ajax, but they drastically reduce the utility for certain types of
+            task-based programming. So I created two new classes to handle these cases, but keeping the same API (except
+            for the deletion of the troublesome onrejected method): the deferred and the repeatable promise.
+        </p>
+        <p class="lead">
+            The deferred promise is a wrapper around a regular javascript promise that allows it to be triggered manually at any point
+            after it's creation. Create a deferred promise using
+            <code>const deferred = new DeferredPromise().then(t => something(t)).catch(c => otherthing(c))</code> and then, when you want to call it, call
+            <code>deferred.resolve('some data')</code> (or <code>reject()</code>).
+        </p>
+
+        <p class="lead">
+            The repeatable promise is really only a promise factory having the promise API. When you resolve or reject the repeatable promise,
+            it creates a new promise according to your configured tasks and resolves or rejects it. This makes it suitable
+            as an event emitter, which ordinary promises are not, because of the resolve once behavior.
+        </p>
+
+        <p class="lead">
+            The onrejected() method is deleted because it only creates bugs. If you use onfulfilled() and onrejected(), if you were inexperienced
+            you might think that errors in onfulfilled() would bounce to onrejected(). You would be wrong. Experienced JS
+            programmers recommend not using onrejected(). Just use catch() like everyone else.
+        </p>
+
+        <p class="lead">
+            Deferred promises can be awaited by accessing the .output property, which exposes the internal promise. Repeatable
+            promises cannot be awaited, because await implies a single run through of the code. However, if you build a single
+            promise using build() (repeatables are just factories), you can await the result.
+        </p>
+
+        <p class="lead">
+            Promises are very similar to events, but not entirely useful because of the "run once right now" behavior. But once this is 
+            resolved, you get a very nice API for configuring repeated events, and this brings us to the EventHandler. You create an event emitter,
+            subscribe one or more delegates (methods) to it using the promise API, and when the event emitter is invoked,
+            those delegates are executed. This is called an EventHandler (even though it is an emitter) because when I was looking for an
+            alternative to the nightmare caused by using custom browser events, I stole an idea from C#, and that's what they call it there.
+        </p>
+
+        <div class="row">
+            <div class="col">
+
+                <ul class="nav nav-tabs mb-3 nav-justified" id="tablist" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tab-demo" data-mdb-toggle="tab" href="#tab-demo-content" role="tab" aria-controls="tab-demo-content"
+                            aria-selected="true">Demo</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tab-quickstart" data-mdb-toggle="tab" href="#tab-quickstart-content" role="tab" aria-controls="tab-quickstart-content"
+                            aria-selected="false">Description</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="tab-content">
+                    <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
+                        <div class="card">
+                            <div class="card-body">
+                                <p>Some async events will populate this area.</p>
+                                <div id="demoArea">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-quickstart-content" role="tabpanel" aria-labelledby="tab-quickstart">
+                        <div class="card">
+                            <div class="card-body">
+                                <a href="promises.js">Link to the demo script</a>
+
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <th scope="col">Class</th>
+                                        <th scope="col">Method</th>
+                                        <th scope="col">Example</th>
+                                        <th scope="col">Detail</th>
+                                    </thead>
+                                    <tr>
+                                        <th scope="row">
+                                            DeferredPromise
+                                        </th>
+                                        <th>
+                                            ctor(onfulfilled?, throwOnUnhandledError = false)
+                                        </th>
+                                        <td>
+                                            <code>const promise = new DeferredPromise(result => result.map(m => someFunction(m)))</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                You create a deferred promise by calling new DeferredPromise(). Both inputs are optional. Just like with a normal promise,
+                                                you can pass an onfulfilled function, which is the same as calling then()
+                                                on the promise. Unlike a normal promise, you cannot pass an onrejected function,
+                                                because this can lead to errors (exceptions in this method are not caught).
+                                            </p>
+
+                                            <p>
+                                                If you like, you can set throwOnUnhandledError to true. This automatically adds a catch() after every then() and catch()
+                                                that throws a new error.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            DeferredPromise
+                                        </th>
+                                        <th>
+                                            then(onfulfilled?, throwOnUnhandledError = this.throwOnUnhandledError)
+                                        </th>
+                                        <td>
+                                            <code>promise.then(result => result.map(m => someFunction(m)))</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Adds a callback to the promise, to be called upon successful completion of the previous callback. As with the constructor,
+                                                both inputs are optional and act the same way, and as with the constructor,
+                                                onrejected is omitted. Otherwise, this is the same as Promise (it's just
+                                                a facade over the actual Promise class).
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            DeferredPromise
+                                        </th>
+                                        <th>
+                                            catch(onrejected?, throwOnUnhandledError = this.throwOnUnhandledError)
+                                        </th>
+                                        <td>
+                                            <code>promise.catch(result => result.map(m => logTheError(m)))</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Adds a callback to the promise, to be called upon failed completion of any previous callback. As with the constructor, both
+                                                inputs are optional. catch() acts the same as it does on default promises,
+                                                and throwOnUnhandledError acts in the same way as in then(). Otherwise, this
+                                                is the same as Promise (it's just a facade over the actual Promise class).
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            DeferredPromise
+                                        </th>
+                                        <th>
+                                            resolve(args?)
+                                        </th>
+                                        <td>
+                                            <code>promise.resolve(['this', 'is', 'something'])</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Resolves the promise using the arguments provided. At this point, the internal promise is resolved, calling all the then()
+                                                and catch() callbacks as configured. Note that the static Promise.resolve()
+                                                method, which creates a new promise and resolves it right now, is not included on DeferredPromise,
+                                                because that wouldn't be deferred.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            DeferredPromise
+                                        </th>
+                                        <th>
+                                            reject(args?)
+                                        </th>
+                                        <td>
+                                            <code>promise.reject('BAAAAKA!')</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Rejects the promise using the arguments provided. At this point, the internal promise is rejected, calling the catch() callback
+                                                as configured.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            DeferredPromise
+                                        </th>
+                                        <th>
+                                            output
+                                        </th>
+                                        <td>
+                                            <code>const result = await promise.output;</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                The output field returns the internal promise. In javascript, async/await is just syntactic sugar around promises, so if
+                                                you want to resolve the deferred promise and await it, you need to access
+                                                the actual promise, not a wrapper object. By awaiting myDeferredPromise.output,
+                                                the browser is satisfied, invokes the promise, and waits for the output.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <th scope="row">
+                                        RepeatablePromise
+                                    </th>
+                                    <th>
+                                        ctor(onfulfilled?, onUnhandledError?, throwOnUnhandledError = false)
+                                    </th>
+                                    <td>
+                                        <code>const promise = new RepeatablePromise(result => result.map(m => someFunction(m)))</code>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            You create a repeatable promise by calling new RepeatablePromise(). All inputs are optional. Just like with a normal promise,
+                                            you can pass an onfulfilled function, which is the same as calling then() on
+                                            the promise. Unlike a normal promise, you cannot pass an onrejected function,
+                                            because this can lead to errors (exceptions in this method are not caught).
+                                        </p>
+
+                                        <p>
+                                            If you like, you can pass a default error handler, which adds a catch() to the very end of the callback chain.
+                                        </p>
+                                        <p>
+                                            Also if you like, you can set throwOnUnhandledError to true. This automatically adds a catch() at the very end (even after
+                                            onUnhandledError) that throws a new error.
+                                        </p>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            RepeatablePromise
+                                        </th>
+                                        <th>
+                                            then(onfulfilled?, throwOnUnhandledError = this.throwOnUnhandledError)
+                                        </th>
+                                        <td>
+                                            <code>promise.then(result => result.map(m => someFunction(m)))</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Adds a callback to the promise, to be called upon successful completion of the previous callback. As with the constructor,
+                                                both inputs are optional and act the same way, and as with the constructor,
+                                                onrejected is omitted. Otherwise, this is the same as Promise (it's just
+                                                a factory that builds a DeferredPromise, which is just a facade over
+                                                Promise).
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            RepeatablePromise
+                                        </th>
+                                        <th>
+                                            catch(onrejected?, throwOnUnhandledError = this.throwOnUnhandledError)
+                                        </th>
+                                        <td>
+                                            <code>promise.catch(result => result.map(m => logTheError(m)))</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Adds a callback to the promise, to be called upon failed completion of any previous callback. As with the constructor, both
+                                                inputs are optional. catch() acts the same as it does on default promises,
+                                                and throwOnUnhandledError acts in the same way as in then(). Otherwise, this
+                                                is the same as Promise (it's just a factory that builds a DeferredPromise, which is jsut a facade over Promise).
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            RepeatablePromise
+                                        </th>
+                                        <th>
+                                            resolve(args?)
+                                        </th>
+                                        <td>
+                                            <code>promise.resolve(['this', 'is', 'something'])</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Builds and resolves the promise using the arguments provided. At this point, a new promise is resolved, calling all the then()
+                                                and catch() callbacks as configured. Note that the static Promise.resolve()
+                                                method, which creates a new promise and resolves it right now, is not included on RepeatablePromise,
+                                                because that wouldn't be repeatable.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            RepeatablePromise
+                                        </th>
+                                        <th>
+                                            reject(args?)
+                                        </th>
+                                        <td>
+                                            <code>promise.reject('BAAAAKA!')</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Builds and rejects the promise using the arguments provided. At this point, a new promise is rejected, calling the catch()
+                                                callback as configured.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            RepeatablePromise
+                                        </th>
+                                        <th>
+                                            build()
+                                        </th>
+                                        <td>
+                                            <code>const deferred = promise.build();</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Builds and returns a new deferred promise, using the current callback chain on the repeatable.
+                                            </p>
+                                            <p>
+                                                This can be awaited as in the following example:
+                                                <code>await promise.build().output;</code>. This builds a single instance (you can't await multiple) and awaits it.
+                                                I don't think it very likely that anyone will really need this, but it's
+                                                just a side effect of the factory process.
+                                            </p>
+                                            <p>
+                                                I considered, for the sake of consistency, making an output field that returned the output of a built instance, but it seemed
+                                                silly. I may change my mind, as it's a few minutes work.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            ctor(disableAsync = false)
+                                        </th>
+                                        <td>
+                                            <code>const emitter = new EventHandler();</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Creates a new EventHandler. By default, callbacks are called using Promises (actually DeferredPromises) on the microtask
+                                                queue, but if you set disableAsync to true, they'll be called synchronously.
+                                                This makes it a lot easier to step through code in developer tools, but browsers
+                                                really work better using asynchronous events.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            subscribe(delegate)
+                                            <br/> subscribe(callback, thisArg)
+                                        </th>
+                                        <td>
+                                            <code>emitter.subscribe(observer.someMethod, observer)</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Adds the callback to the event handler's delegates. If you subscribe the delegate of another event handler, then when the
+                                                event handler is invoked, the delegate callbacks are also called, recursively.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            unsubscribeCallback(callback)
+                                        </th>
+                                        <td>
+                                            <code>emitter.unsubscribeCallback(observer.someMethod)</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Searches the event handler's delegates and removes instances of the callback.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            unsubscribeListener(observer)
+                                        </th>
+                                        <td>
+                                            <code>emitter.unsubscribeListener(observer)</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Searches the event handler's delegates and removes instances of the observer's delegate or callbacks where thisArg is set
+                                                to the observer.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            unsubscribeDelegate(observer)
+                                        </th>
+                                        <td>
+                                            <code>emitter.unsubscribeDelegate(observer)</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Searches the event handler's delegates and removes instances of the observer's delegate.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            delegate
+                                        </th>
+                                        <td>
+                                            <code>const delegates = emitter.delegate</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Exposes the delegates (which can be recursive references to other event handlers' delegates) of the event handler. It's main
+                                                use is being subscribed to other event handlers, as in this example, where
+                                                events on emitter2 trigger all callbacks of emitter1:
+                                            </p>
+                                            <p>
+                                                <code>const emitter1 = new EventHandler(); <br/>
+                                                                const emitter2 = new EventHandler(); <br/>
+                                                                emitter1.subscribe(myClass.onClick, myClass); <br/>
+                                                                emitter2.subscribe(emitter1.delegate);</code>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            invoke(args)
+                                        </th>
+                                        <td>
+                                            <code>emitter.invoke(args)</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Calls (either synchronously or asynchronously, using the RepeatablePromise class, depending on the disableAsync setting)
+                                                all the delegate callbacks that are subscribed, supplying the arguments supplied
+                                                to the invoke() method.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            clear()
+                                        </th>
+                                        <td>
+                                            <code>emitter.clear()</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Remove all delegates from the emitter's delegate list.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            EventHandler
+                                        </th>
+                                        <th>
+                                            find({ callback?, thisArg?, firstMatch? })
+                                        </th>
+                                        <td>
+                                            <code>emitter.find({callback: myClass.onClick, thisArg: myClass})</code>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                Returns an array containing any delegates matching either callback, thisArg, or both (if provided). If firstMatch is true,
+                                                the search stops after the first match. Does not consider non-callback delegates.
+                                                Does not recursively search other event handlers' delegates.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <p class="h3">Type definitions</p>
+                                <ul>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/System/Async/DeferredPromise.d.ts">DeferredPromise</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/System/Async/RepeatablePromise.d.ts">RepeatablePromise</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/hachiko-8ko/ichigo-types/blob/master/types/System/EventHandler/EventHandler.d.ts">EventHandler</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="text-center pt-4">
+            <a href="https://hachiko-8ko.github.io/ichigo-demo">
+                <img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home">
+            </a>
+        </div>
+    </footer>
+</body>
+
+<script src="../../lib/bootstrap/js/mdb.min.js"></script>
+<script src="../../lib/ichigo/js/ichigo-full.min.js"></script>
+<script src="js/promises.js"></script>
+
+</html>

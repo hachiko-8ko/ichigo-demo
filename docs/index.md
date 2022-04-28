@@ -32,6 +32,7 @@ Complete demos of all the capabilities of certain objects.
 * [Keyword Arguments](api/keyword-arguments): Pythonish keyword arguments
 * [HTML](api/html-helpers): HTML helper functions
 * [Promises](api/promises): Deferred promises, repeatable promises, and event handlers
+* [Observables](api/observables): Observable properties, proxies, and state
 * [Component](api/component-base): Component base properties
 * [Component & Bound Component](api/component-ctor): Component constructors
 * [Bound Component](api/component-inject): Component injection

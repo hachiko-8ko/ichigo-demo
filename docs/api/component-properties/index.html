@@ -57,7 +57,7 @@
                     <div class="tab-pane fade show active" id="tab-demo-content" role="tabpanel" aria-labelledby="tab-demo">
                         <div class="card">
                             <div class="card-body" id="demoArea">
-                                <div :name="d1"><i-v d1>world</i-v> ... <i-v>nonmatching</i-v></div>
+                                <div id="d1"><i-v #d1>world</i-v> ... <i-v #nomatch>nonmatching</i-v></div>
                                 <div :text="htmlText"></div>
                                 <div :html="htmlText"></div>
                                 <div><input :value="one" /></div>
@@ -67,14 +67,14 @@
                                 <!-- Note: This is just to be visible. :value is better than :attr:value. -->
                                 <div><input :attr:value="two" /></div>
                                 <div><input :bool:disabled="truthy" value="Should be disabled" /></div>
-                                <div><input :bool:disabled="falsy" /></div>
-                                <div><input :bool-:disabled="truthy" /></div>
+                                <div><input :bool:disabled="falsy" value="Should not be disabled"/></div>
+                                <div><input :bool-:disabled="truthy" value="Should not be disabled"/></div>
                                 <div><input :bool-:disabled="falsy" value="Should be disabled" /></div>
                                 <div :style="style">Some styled content</div>
                                 <div :class="className">Some red bold content</div>
                                 <div :switch:red="truthy">Some red content</div>
                                 <div :switch-:bold="falsy">Some bold content</div>
-                                <div :if="truthy">Visible (shouldn't see "Invisible" below)</div>
+                                <div :if="truthy">Visible (shouldn't see the text "Invisible" below)</div>
                                 <div :if-="truthy">Invisible (shouldn't see this)</div>
                                 <div :loop="iterable"><span :item><i-v>.</i-v> </span></div>
                             </div>
@@ -95,17 +95,23 @@
                                     </thead>
                                     <tr>
                                         <th scope="row">
-                                            <code>i5_name</code>
+                                            <code>id</code>
                                         </th>
                                         <td>
                                             <p>
-                                                Sets the name of a component. If you have a very simple case, one component by itself, then you are OK just using i-v replacements by themselves. But in most use cases, components are nested inside other components, and if you are applying components to areas static HTML, it's necessary to indicate which component a given tag references, otherwise the wrong component will be updated. This is handled by assigning a name to a component. Once this is done, only components having a custom attribute are updated.
+                                                Sets the id of a component. This is just the normal HTML id, not actually part of ichigo at all. It deserves to be called out here though if you nest components.
+                                                </p>
+                                                <p>
+                                                If you have a very simple case, one component by itself, then you are OK just using i-v replacements by themselves. But in most use cases, components are nested inside other components, and if you are applying components to areas static HTML, it's necessary to indicate which component a given tag references, otherwise the wrong component will be updated. This is handled by referencing the id of the component, using <code>#id</code>, <code>component="id"</code>, or <code>data-component="id"</code> (pick your favorite syntax). This check is case-insensitive.
                                             </p>
                                             <p>
-                                                See the following example: <code>&lt;div iv_name="the_name"&gt; &lt;i-v the_name&gt;updated_prop&lt;/i-v&gt; &lt;i-v something_else&gt;not_updated_prop&lt;/i-v&gt; &lt;/div&gt;</code>. Here, only i-v the_name is updated, not i-v something else.
+                                                See the following example: <code>&lt;div id="the_name"&gt; &lt;i-v #the_name&gt;updated_prop&lt;/i-v&gt; &lt;i-v #something_else&gt;not_updated_prop&lt;/i-v&gt; &lt;/div&gt;</code>. Here, only i-v #the_name is updated, not i-v #something else.
                                             </p>
                                             <p>
-                                                If you intend to have nested components, you should assign names to all components. It's easy to create a scenario like this obviously bad one: <code>&lt;some-outer-component&lt; &lt;div iv_name="the_inner_component"&gt; &lt;i-v the_inner_component&gt;updated_prop&lt;/i-v&gt; &lt;i-v the_outer_component&gt;accidentally_updated_prop&lt;/i-v&gt; &lt;/div&gt;&lt;/some-outer-component&lt;</code>. In this scenario, because some-outer-component is unnamed, it will replace <em>both</em> i-v tags (this was a deliberate choice I made to simplify the API from &lt;i-v component="the_inner_component"&gt; to &lt;i-v the_inner_component&gt;).
+                                                If you intend to have nested components, you should assign ids to all replacements. It's easy to create a scenario like this obviously bad one: <code>&lt;some-outer-component id="outer"&gt; &lt;div id="the_inner_component"&gt; &lt;i-v&gt;accidentally_updated_prop&lt;/i-v&gt; &lt;i-v #outer&gt;prop&lt;/i-v&gt; &lt;/div&gt;&lt;/some-outer-component&gt;</code>. In this scenario, some-outer-component will replace <em>both</em> i-v tags.
+                                            </p>
+                                            <p>
+                                                <em>If you are nesting components, always bind from outermost to innermost.</em> When you create a component, its innerHTML is replaced, meaning that any previous components having references to elements in that HTML are now referencing nonexistent elements.
                                             </p>
                                         </td>
                                     </tr>

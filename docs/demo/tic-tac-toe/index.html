@@ -104,7 +104,7 @@
                                 </p>
 
                                 <p>
-                                    <code>&lt;div class="row" :loop="db"&gt;&lt;div class="col-4" :item&gt;&lt;/div&gt;&lt;/div&gt;</code>: Creates a loop for every item in "db" whose items are the div marked with <code>:item</code>. "row" and "col-4" are part of the Bootstrap grid system. See below for notes about this child loop.
+                                    <code>&lt;div class="row" :loop="db"&gt;&lt;div class="col-4"&gt;&lt;/div&gt;&lt;/div&gt;</code>: Creates a loop for every item in "db" whose items are the top-level div. "row" and "col-4" are part of the Bootstrap grid system. See below for notes about this child loop.
                                 </p>
 
                                 <p>
@@ -139,7 +139,7 @@
                                 </p>
 
                                 <p>
-                                    The viewModel passed into the BoxView is a BoxModel, which has properties for <code>value</code> (displayed in the div) and <code>winningMove</code>. The winningMove property is used in a custom attribute, which you'll remember from the GameView loop discussion above needs to be stored at the component level. <code>options.attributes = { ':switch:success': 'winningMove' }</code> adds <code>:switch:success</code> to the <code>&lt;div class="col-4" :item&gt;</code> element (there are other ways to skin this cat but that's the one I liked).
+                                    The viewModel passed into the BoxView is a BoxModel, which has properties for <code>value</code> (displayed in the div) and <code>winningMove</code>. The winningMove property is used in a custom attribute, which you'll remember from the GameView loop discussion above needs to be stored at the component level. <code>options.attributes = { ':switch:success': 'winningMove' }</code> adds <code>:switch:success</code> to the <code>&lt;div class="col-4"&gt;</code> element (there are other ways to skin this cat but that's the one I liked).
                                 </p>
 
                                 <p>

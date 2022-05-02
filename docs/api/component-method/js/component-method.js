@@ -32,7 +32,7 @@ bound[9].addCssClassSwitch("red", "truthy");
 bound[10].addCssClassSwitch("bold", "falsy", true);
 bound[11].setVisibility("truthy");
 bound[12].setVisibility("falsy");
-bound[13].setLoop("iterable", "<span :item><i-v>.</i-v> </span>");
+bound[13].setLoop("iterable", "<span><i-v>.</i-v> </span>");
 
 for (const b of bound) {
     b.render();

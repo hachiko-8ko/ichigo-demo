@@ -123,7 +123,7 @@ class GameView extends BoundComponent {
             outerHtml: `
             <div class="container game">
                 <div class="row" :loop="db">
-                    <div class="col-4" :item></div>
+                    <div class="col-4"></div>
                 </div>
                 <div>Current Player: <i-v>currentPlayer</i-v></div>
                 <div>Status: <i-v>status</i-v>

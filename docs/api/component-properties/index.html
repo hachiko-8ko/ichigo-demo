@@ -76,7 +76,7 @@
                                 <div :switch-:bold="falsy">Some bold content</div>
                                 <div :if="truthy">Visible (shouldn't see the text "Invisible" below)</div>
                                 <div :if-="truthy">Invisible (shouldn't see this)</div>
-                                <div :loop="iterable"><span :item><i-v>.</i-v> </span></div>
+                                <div :loop="iterable"><span><i-v>.</i-v> </span></div>
                             </div>
                         </div>
                     </div>
@@ -329,9 +329,12 @@
                                         </th>
                                         <td>
                                             <p>
-                                                After content has been repeated using i5_loop, the i5_loop selector indicates the HTML object that should be converted to
+                                                (optional) After content has been repeated using i5_loop, the i5_loop selector indicates the HTML object that should be converted to
                                                 a component by loopPostProcess(). The property of the i5_item attribute does
                                                 not matter.
+                                            </p>
+                                            <p>
+                                                If not included, then loopPostProcess() grabs the first, topmost level element. In 99.9% of cases, this is a fine, so i5_item is not needed.
                                             </p>
                                         </td>
                                     </tr>

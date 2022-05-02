@@ -140,7 +140,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            setLoop(source: string = '.', fragment: DocumentFragment | string, skipPostProcess: boolean = false, update: boolean = false)
+                                            setLoop(source: string = '.', fragment: DocumentFragment | string, skipPostProcess: boolean = false, update: boolean = false, otherComponentId?: string)
                                         </th>
                                         <td>
                                             <code>obj.setLoop("someListProperty", "&lt;div class="inner-loop"&gt;&lt;i-v&gt;some-prop&lt;/i-v&gt;&lt;/div&gt;")</code>
@@ -167,7 +167,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            setValueAttribute(source: string | undefined = '.', update: boolean = false)
+                                            setValueAttribute(source: string | undefined = '.', update: boolean = false, otherComponentId?: string)
                                         </th>
                                         <td>
                                             <code>obj.setValueAttribute("some-prop")</code>
@@ -180,7 +180,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            setVisibility(source: string | undefined = '.', negative: boolean = false, update: boolean = false)
+                                            setVisibility(source: string | undefined = '.', negative: boolean = false, update: boolean = false, otherComponentId?: string)
                                         </th>
                                         <td>
                                             <code>obj.setValueAttribute("some-prop")</code>
@@ -193,7 +193,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            addBooleanAttributeMapping(attribute: string, source: string = '.', update: boolean = false)
+                                            addBooleanAttributeMapping(attribute: string, source: string = '.', update: boolean = false, otherComponentId?: string)
                                         </th>
                                         <td>
                                             <code>obj.addBooleanAttributeMapping("disabled", "some-prop")</code>
@@ -219,7 +219,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            setCssClass(cls: string | undefined = '.', update: boolean = false)
+                                            setCssClass(cls: string | undefined = '.', update: boolean = false, otherComponentId?: string)
                                         </th>
                                         <td>
                                             <code>obj.setCssClass("some-prop")</code>
@@ -232,7 +232,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            setCssStyle(style: string | undefined = '.', update: boolean = false)
+                                            setCssStyle(style: string | undefined = '.', update: boolean = false, otherComponentId?: string)
                                         </th>
                                         <td>
                                             <code>obj.setCssStyle("some prop")</code>
@@ -245,7 +245,7 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            addCssClassSwitch(cls: string, source: string = '.', negative: boolean = false, update: boolean = false)
+                                            addCssClassSwitch(cls: string, source: string = '.', negative: boolean = false, update: boolean = false, otherComponentId?: string)
                                         </th>
                                         <td>
                                             <code>obj.addCssClassSwitch("some-class", "some-prop")</code>

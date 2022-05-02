@@ -189,6 +189,19 @@
                                             <p>To understand why, consider the following class ... which of the two properties exists before super() is called and which does not? Contrast with the object model in C#. <code>class MyClass { a: string = "A"; b(): string { return "B"; } }</code></p>
                                         </td>
                                     </tr>
+                                    <tr>
+                                            <th scope="row">
+                                                The :source (or i5_source or data-i5_source) property is set.
+                                            </th>
+                                            <td>
+                                                <code>&lt;component :source="otherComponent" :class="someField"&gt;&lt;/component&gt;</code>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    Before looking for the data source, Ichigo looks for the component with id matching the source. It then uses the view model of that component to resolve the data.
+                                                </p>
+                                            </td>
+                                        </tr>
                                 </table>
                             </div>
                         </div>

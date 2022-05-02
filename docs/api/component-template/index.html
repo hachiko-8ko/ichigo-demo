@@ -7,22 +7,40 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../lib/bootstrap/css/mdb.min.css" />
 </head>
+
 <body>
 
     <div class="container-fluid">
         <h1>BoundComponent Template Strings</h1>
         <p class="lead">
-            The BoundComponent class includes functionality for inserting variables into strings that are displayed. Typically this is done with some variation of handlebars.js, something like &lt;p&gt;Hello {{planet}}&lt;/p&gt;, or if you're using HTML5 template strings (which are misnamed because they don't work as templates), &lt;p&gt;Hello ${planet}&lt;/p&gt;. Ichigo takes a different approach. Ichigo's templating language is more integrated with HTML, because Ichigo is a framework for producing web content. Content to be replaced by a bound string must be stored in an "i-v" HTML element containing a variable or parameterless function, as in the following example:<br/>
+            The BoundComponent class includes functionality for inserting variables into strings that are displayed. Typically this is
+            done with some variation of handlebars.js, something like &lt;p&gt;Hello {{planet}}&lt;/p&gt;, or if you're using
+            HTML5 template strings (which are misnamed because they don't work as templates), &lt;p&gt;Hello ${planet}&lt;/p&gt;.
+            Ichigo takes a different approach. Ichigo's templating language is more integrated with HTML, because Ichigo
+            is a framework for producing web content. Content to be replaced by a bound string must be stored in an "i-v"
+            HTML element containing a variable or parameterless function, as in the following example:
+            <br/>
             <code>&lt;p&gt;Hello &lt;i-v&gt;planet&lt;/i-v&gt;&lt;/p&gt;</code>
         </p>
         <p class="lead">
-            At this point you might be wondering why Ichigo uses something odd when all the other web frameworks use some variation of handlebars templating. Is it just to be different?  Well, no, it's to make the framework programmer's life easier. If at this point you're thinking, "Oh, what a lazy bastard," you can FUCK RIGHT OFF! Ok, that's a little confrontational, sorry, but I'm not going to write sloppy code just because everyone else does.
-        
-            TBH I did actually write it a few years ago. It had a lot of regular expressions. <quote><em class="text-muted">Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have two problems.</em></quote> Then I realized that I'm not building strings but browser content, and browsers already have a way to isolate elements, fill content, and escape tags. It's called the document object model and it's been around for how many years -- really I'm asking, how many years, I'm having a hard time finding the starting
-            point ... seems to be 1997 ...
+            At this point you might be wondering why Ichigo uses something odd when all the other web frameworks use some variation of
+            handlebars templating. Is it just to be different? Well, no, it's to make the framework programmer's life easier.
+            If at this point you're thinking, "Oh, what a lazy bastard," you can FUCK RIGHT OFF! Ok, that's a little confrontational,
+            sorry, but I'm not going to write sloppy code just because everyone else does. TBH I did actually write it a
+            few years ago. It had a lot of regular expressions.
+            <quote>
+                <em class="text-muted">Some people, when confronted with a problem, think "I know, I'll use regular expressions." Now they have
+                    two problems.</em>
+            </quote> Then I realized that I'm not building strings but browser content, and browsers already have a way to isolate
+            elements, fill content, and escape tags. It's called the document object model and it's been around for how many
+            years -- really I'm asking, how many years, I'm having a hard time finding the starting point ... seems to be
+            1997 ...
         </p>
         <p class="lead">
-            Anyway, that went way off into tangent-land, but the point is that values to be replaced are just HTML elements like spans. This implementation allows the framework code to fill them using standard HTML5 methods that exist in every modern browser, a fact which allows the framework programmer to sleep at night without feeling like he hacked some shit up. As sleep is critical for human health, this makes life easier.
+            Anyway, that went way off into tangent-land, but the point is that values to be replaced are just HTML elements like spans.
+            This implementation allows the framework code to fill them using standard HTML5 methods that exist in every modern
+            browser, a fact which allows the framework programmer to sleep at night without feeling like he hacked some shit
+            up. As sleep is critical for human health, this makes life easier.
         </p>
 
         <div class="row">
@@ -44,14 +62,18 @@
                         <div class="card">
                             <div class="card-body">
                                 <p id="testComponent1">
-                                    Hello <i-v #testComponent1>planet</i-v>.
+                                    Hello
+                                    <i-v #testComponent1>planet</i-v>.
                                     <span id="testComponent2">
-                                        I come here from <i-v #testComponent2>.</i-v>.
+                                        I come here from
+                                        <i-v #testComponent2>.</i-v>.
                                     </span>
                                 </p>
                                 <div id="testComponent3">
-                                    This is a list of neighboring planets who have asked me to mention them to any intelligent beings I met:
-                                    <ul><i-v noescape class="text-uppercase">advertising</i-v></ul>
+                                    This is a list of neighboring planets who have asked me to mention them to any intelligent beings I met on my way to <i-v :source="testComponent2">.</i-v>:
+                                    <ul>
+                                        <i-v noescape class="text-uppercase">advertising</i-v>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -60,20 +82,58 @@
                         <div class="card">
                             <div class="card-body">
                                 <p>
-                                    A text item to be replaced with bound text should be inserted as an &lt;i-v&gt; tag, where the content is a property of the object bound to the component, as in the following example:
-                                    <code>&lt;div id="test"&gt;My name is &lt;i-v&gt;name&lt;/i-v&gt;&lt;/div&gt;</code> bound with <code>new BoundComponent({ name: 'Sam' }, { selector: '#test' })</code>.
+                                    A text item to be replaced with bound text should be inserted as an &lt;i-v&gt; tag, where the content is a property of the
+                                    object bound to the component, as in the following example:
+                                    <code>&lt;div id="test"&gt;My name is &lt;i-v&gt;name&lt;/i-v&gt;&lt;/div&gt;</code> bound with
+                                    <code>new BoundComponent({ name: 'Sam' }, { selector: '#test' })</code>.
                                 </p>
                                 <p>
-                                    The innerHTML of the i-v element is the property name, found on the component view model, to use for the new content of the element. It can also be a method of the view model; if used, the method is called with no arguments (<em>for now</em>). It can also be the view model itself -- to do this, set the innerHTML to a period by itself (&lt;i-v&gt;.&lt;/i-v&gt;) -- this can make sense if the view model is a simple object such as a string and makes no sense if you display [object Object].
+                                    The innerHTML of the i-v element is the property name, found on the component view model, to use for the new content of the
+                                    element. It can also be a method of the view model; if used, the method is called with
+                                    no arguments (
+                                    <em>for now</em>). It can also be the view model itself -- to do this, set the innerHTML
+                                    to a period by itself (&lt;i-v&gt;.&lt;/i-v&gt;) -- this can make sense if the view model
+                                    is a simple object such as a string and makes no sense if you display [object Object].
                                 </p>
                                 <p>
-                                    By default the replaced content is HTML escaped. If you want it to be raw text, allowing HTML tags to appear in the output, add a noescape attribute, as in <code>&lt;i-v noescape&gt;</code>.
+                                    By default the replaced content is HTML escaped. If you want it to be raw text, allowing HTML tags to appear in the output,
+                                    add a noescape attribute, as in
+                                    <code>&lt;i-v noescape&gt;</code>.
                                 </p>
                                 <p>
-                                    By default, all i-v elements are replaced. If you want to include a tag inside multiple nested components, and only want to associate the element with one of them, add the id of the component after a pound sign, as in <code>&lt;i-v #inner_component&gt;</code>, or use the "component" or "data-component" properties (<code>&lt;i-v component="inner_component"&gt;</code>). This check is case-insensitive.
+                                    By default, all i-v elements are bound to a component and replaced. If you want to include a tag inside multiple nested components,
+                                    and only want to associate the element with one of them, add the id of the component
+                                    after a pound sign, as in
+                                    <code>&lt;i-v #inner_component&gt;</code>, or use the "component" or "data-component" properties (
+                                    <code>&lt;i-v component="inner_component"&gt;</code>). This check is case-insensitive.
                                 </p>
                                 <p>
-                                    When a component is initially rendered, i-v elements are replaced with their expected values. When the component is re-rendered (because it observing object changes, for examples), i-v elements are re-populated. i-v elements are regular HTML elements, so they can take styles, CSS classes, etc.  Unless you choose to destroy them (by, for example, setting innerHTML of a parent), these i-v elements stay where you left them, so they can be safely referenced in code.
+                                    One of the optional, rarely used, but occasionally useful possibilities is to use a different component on the page as the
+                                    data source. This can save you some custom coding. The :source attribute tells Ichigo to look for the component on the page (it has to show up in document.getElementById()) having that id and use that as the source. View model references come from that component, as do "this." (references to the component).
+                                </p>
+                                <p>
+                                    Consider the following two examples:
+                                    <br/>
+                                    <code>
+                                        &lt;subject-line id="subject"&gt;&lt;i-v #subject&gt;.&lt;/i-v&gt; &lt;from-line id="from"&gt;&lt;i-v #from&gt;.&lt;/i-v&gt;&lt;/from-line&gt;&lt;/subject-line&gt; <br/>
+                                        &lt;subject-line id="subject"&gt;&lt;i-v #subject&gt;.&lt;/i-v&gt; &lt;from-line id="from"&gt;&lt;i-v #subject :source="from"&gt;.&lt;/i-v&gt;&lt;/from-line&gt;&lt;/subject-line>
+                                    </code>
+                                    <br/> These two examples would show the same data, but they are not the same. In the first
+                                    example, the from line can update when the from line is changed and the subject line
+                                    can update when the subject line changes, each with their relevant values. In the second
+                                    example, the subject line still comes from the subject component and the from line still
+                                    comes from the from component, but both tags are bound to the #subject component ...
+                                    only a change in the subject line will change them.
+                                </p>
+                                <p>
+                                    Changing the source allows you to pull data from components found in a completely different part of the page. Of course you could already do that by using a method as your source, but this saves you some coding.
+                                </p>
+                                <p>
+                                    When a component is initially rendered, i-v elements are replaced with their expected values. When the component is re-rendered
+                                    (because it observing object changes, for examples), i-v elements are re-populated. i-v
+                                    elements are regular HTML elements, so they can take styles, CSS classes, etc. Unless
+                                    you choose to destroy them (by, for example, setting innerHTML of a parent), these i-v
+                                    elements stay where you left them, so they can be safely referenced in code.
                                 </p>
 
                                 <a href="js/component-template.js">Link to the demo script</a>
@@ -86,7 +146,9 @@
     </div>
     <footer>
         <div class="text-center pt-4">
-            <a href="https://hachiko-8ko.github.io/ichigo-demo"><img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home"></a>
+            <a href="https://hachiko-8ko.github.io/ichigo-demo">
+                <img src="../../img/ichigo-logo-small.gif" alt="Logo" width="100" title="Home">
+            </a>
         </div>
     </footer>
 </body>

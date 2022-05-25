@@ -41,4 +41,10 @@ Complete demos of all the capabilities of certain objects.
 * [Bound Component](api/component-source): Component value sources
 * [Bound Component](api/component-method): Component methods
 
+## Other
+
+I made a test bench/demo for JOIN to Javascript, an implementation of the C# LINQ to Objects in TypeScript. It's not worth making a whole demo site for 6 test pages, even if they are big, so I'll put it here. The Github page is [here](https://github.com/hachiko-8ko/join-to-javascript).
+
+* [JOIN to Javascript](demo/join-to-javascript): Typescript implementation of System.Linq
+
 <sub><sup>Ichigo logo hacked up using two SVGs licensed by Wikimedia under CC BY-SA 4.0</sup></sub>
